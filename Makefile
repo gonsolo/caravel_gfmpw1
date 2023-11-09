@@ -24,8 +24,8 @@ SIM?=RTL
 CARAVEL_LITE?=1
 
 # PDK switch varient
-export PDK?=gf180mcuD
-#export PDK?=gf180mcuC
+#export PDK?=gf180mcuD
+export PDK?=gf180mcuC
 export PDKPATH?=$(PDK_ROOT)/$(PDK)
 
 PYTHON_BIN ?= python3
