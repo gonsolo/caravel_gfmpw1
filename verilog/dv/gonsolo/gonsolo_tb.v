@@ -16,6 +16,7 @@ module gonsolo_tb;
                 repeat (10) begin
 			repeat (1000) @(posedge clock);
                         $display("+1000 cycles");
+			$display("mprj_io state = %b ", mprj_io[7:0]);
                 end
                 $display ("gonsolo: timeout");
 		$finish;
@@ -50,6 +51,10 @@ module gonsolo_tb;
                   #100;
                   power1 <= 1'b1;
         end
+
+	//always @(mprj_io) begin
+        //        #1 $display("MPRJ-IO state = %b ", mprj_io[7:0]);
+        //end
 
 	caravel uut(
 		.VDD(VDD5V),
