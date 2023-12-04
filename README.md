@@ -1,3 +1,3 @@
-# GONSOLO: TODO
+# Diffuse Shader: Hardwired simple shader in silicon
 
-Refer to [README](docs/source/index.rst) for this sample project documentation. 
+A simple shader as used in rendering applications in silicon.

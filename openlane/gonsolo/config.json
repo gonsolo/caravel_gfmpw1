@@ -1,10 +1,10 @@
 {
 	"PDK": "gf180mcuD",
 	"STD_CELL_LIBRARY": "gf180mcu_fd_sc_mcu7t5v0",
-	"DESIGN_NAME": "user_proj_example",
+	"DESIGN_NAME": "gonsolo",
 	"VERILOG_FILES": [
 		"dir::../../verilog/rtl/defines.v",
-		"dir::../../verilog/rtl/user_proj_example.v"
+		"dir::../../verilog/rtl/gonsolo.v"
 	],
 	"DESIGN_IS_CORE": 0,
 	"CLOCK_PORT": "wb_clk_i",
@@ -24,7 +24,7 @@
 	"GND_NETS": [
 		"vss"
 	],
-    "BASE_SDC_FILE": "dir::base_user_proj_example.sdc",
+    "BASE_SDC_FILE": "dir::base_gonsolo.sdc",
 	"RUN_HEURISTIC_DIODE_INSERTION": 1,
 	"RUN_CVC": 1,
 	"QUIT_ON_LINTER_ERRORS": 0

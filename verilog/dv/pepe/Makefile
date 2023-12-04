@@ -11,19 +11,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 # SPDX-License-Identifier: Apache-2.0
 
-# In Makefile now
-# export OPENLANE_ROOT=$(pwd)/dependencies/openlane_src
-# export PDK_ROOT=$(pwd)/dependencies/pdks
-# export PDK=gf180mcuD
-# export PRECHECK_ROOT=$(pwd)/dependencies/precheck
 
-# once: make setup # volare enable --pdk gf180mcu e0f692f46654d6c7c99fc70a0c94a080dab53571
-# list: volare ls --pdk gf180mcu
+ 
+PWDD := $(shell pwd)
+BLOCKS := $(shell basename $(PWDD))
 
-#make user_proj_example
-# make gonsolo
+# ---- Include Partitioned Makefiles ----
 
-# make precheck # installs precheck in $PRECHECK_ROOT
-# make run-precheck
+CONFIG = caravel_user_project
+
+
+include $(MCW_ROOT)/verilog/dv/make/env.makefile
+include $(MCW_ROOT)/verilog/dv/make/var.makefile
+include $(MCW_ROOT)/verilog/dv/make/cpu.makefile
+include $(MCW_ROOT)/verilog/dv/make/sim.makefile
+
+
