@@ -15,10 +15,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # gonsolo
-export OPENLANE_ROOT=$(pwd)/dependencies/openlane_src
-export PDK_ROOT=$(pwd)/dependencies/pdks
+export OPENLANE_ROOT=$(PWD)/dependencies/openlane_src
+export PDK_ROOT=$(PWD)/dependencies/pdks
 export PDK=gf180mcuD
-export PRECHECK_ROOT=$(pwd)/dependencies/precheck
+export PRECHECK_ROOT=$(PWD)/dependencies/precheck
 # end gonsolo
 
 MAKEFLAGS+=--warn-undefined-variables
