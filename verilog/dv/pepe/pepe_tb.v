@@ -21,8 +21,7 @@ module pepe_tb;
 	reg clock;
 	reg RSTB;
 	reg CSB;
-	reg power1, power2;
-	reg power3, power4;
+	reg power1;
 
 	wire gpio;
 	wire [37:0] mprj_io;
@@ -143,6 +142,8 @@ module pepe_tb;
 		end
 		$display("%c[1;31m",27);
 
+		$display("gonso MPRJ-IO state = %b ", mprj_io_gonso);
+
 		`ifdef GL
 			$display ("Monitor: Timeout, Test Mega-Project IO Ports (GL) Failed");
 		`else
@@ -180,17 +181,8 @@ module pepe_tb;
 
 	initial begin		// Power-up sequence
 		power1 <= 1'b0;
-		power2 <= 1'b0;
-		power3 <= 1'b0;
-		power4 <= 1'b0;
-		#100;
+		#100
 		power1 <= 1'b1;
-		#100;
-		power2 <= 1'b1;
-		#100;
-		power3 <= 1'b1;
-		#100;
-		power4 <= 1'b1;
 	end
 
 	wire flash_csb;
@@ -198,19 +190,11 @@ module pepe_tb;
 	wire flash_io0;
 	wire flash_io1;
 
-	wire VDD3V3;
-	wire VDD1V8;
-	wire VSS;
-	wire VDD5V;
-
-	//assign VDD3V3 = power1;
-	assign VDD1V8 = power2;
-	assign VSS = 1'b0;
-
-	assign VDD5V = power1;
+	wire VDD = power1;
+	wire VSS = 1'b0;
 
 	caravel uut (
-		.VDD	  (VDD5V),
+		.VDD	  (VDD),
 		.VSS	  (VSS),
 		.clock    (clock),
 		.gpio     (gpio),
