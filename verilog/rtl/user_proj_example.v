@@ -438,6 +438,9 @@ module user_proj_example #(
     //assign io_oeb = {(BITS){reset}};
     assign io_oeb = 16'hFFFF;
     //assign io_oeb = 16'h0000;
+    assign io_out = 16'hFFFF;
+
+    //assign io_oeb = 16'h0000;
 
     // IRQ
     assign irq = 3'b000;	// Unused
@@ -461,7 +464,8 @@ module user_proj_example #(
 	io_in,
         input_ready,
         output_valid,
-        output_bits_out,
+	output_bits_out[31:16],
+	//output_bits_out,
         1'b0};
 
     Diffuse diffuse(

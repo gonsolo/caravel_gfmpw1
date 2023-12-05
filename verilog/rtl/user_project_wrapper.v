@@ -66,28 +66,24 @@ module user_project_wrapper #(
     output [2:0] user_irq
 );
 
-/*--------------------------------------*/
-/* User project is instantiated  here   */
-/*--------------------------------------*/
+	user_proj_example mprj (
+	`ifdef USE_POWER_PINS
+		.vdd(vdd),	// User area 1 1.8V power
+		.vss(vss),	// User area 1 digital ground
+	`endif
 
-user_proj_example mprj (
-`ifdef USE_POWER_PINS
-	.vdd(vdd),	// User area 1 1.8V power
-	.vss(vss),	// User area 1 digital ground
-`endif
+	    .wb_clk_i(wb_clk_i),
+	    .wb_rst_i(wb_rst_i),
 
-    .wb_clk_i(wb_clk_i),
-    .wb_rst_i(wb_rst_i),
+	    // IO Pads
 
-    // IO Pads
+	    .io_in ({io_in[37:30],io_in[7:0]}),
+	    .io_out({io_out[37:30],io_out[7:0]}),
+	    .io_oeb({io_oeb[37:30],io_oeb[7:0]}),
 
-    .io_in ({io_in[37:30],io_in[7:0]}),
-    .io_out({io_out[37:30],io_out[7:0]}),
-    .io_oeb({io_oeb[37:30],io_oeb[7:0]}),
-
-    // IRQ
-    .irq(user_irq)
-);
+	    // IRQ
+	    .irq(user_irq)
+	);
 
 endmodule	// user_project_wrapper
 
