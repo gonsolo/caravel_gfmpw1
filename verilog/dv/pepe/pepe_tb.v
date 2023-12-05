@@ -175,6 +175,8 @@ module pepe_tb;
 		CSB  <= 1'b1;		// Force CSB high
 		#2000;
 		RSTB <= 1'b1;	    	// Release reset
+		//#3000;
+		//RSTB <= 1'b0;	    	// gonsolo test
 		#3_00_000;
 		CSB = 1'b0;		// CSB can be released
 	end

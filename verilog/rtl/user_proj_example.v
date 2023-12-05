@@ -419,11 +419,11 @@ module user_proj_example #(
     assign clock = wb_clk_i;
     assign reset = wb_rst_i;
 
-    wire [BITS-1:0] rdata; 
-    wire [BITS-1:0] wdata;
-    wire [BITS-1:0] count;
+    //wire [BITS-1:0] rdata; 
+    //wire [BITS-1:0] wdata;
+    //wire [BITS-1:0] count;
 
-    wire valid;
+    //wire valid;
     //wire [3:0] wstrb;
     //wire [BITS-1:0] la_write;
 
@@ -434,14 +434,16 @@ module user_proj_example #(
     //assign wdata = wbs_dat_i[BITS-1:0];
 
     // IO
-    assign io_out = count;
-    assign io_oeb = {(BITS){reset}};
+    //assign io_out = count;
+    //assign io_oeb = {(BITS){reset}};
+    assign io_oeb = 16'hFFFF;
+    //assign io_oeb = 16'h0000;
 
     // IRQ
     assign irq = 3'b000;	// Unused
 
     // dummies
-    assign rdata = 1;
+    //assign rdata = 1;
 
     // diffuse dummies
     wire output_ready;
@@ -456,6 +458,7 @@ module user_proj_example #(
     wire [31:0] output_bits_out;
     wire _unused_ok = &{
         1'b0,
+	io_in,
         input_ready,
         output_valid,
         output_bits_out,
@@ -472,7 +475,7 @@ module user_proj_example #(
         .output_bits_out(output_bits_out)
     );
 
-    assign count = output_bits_out[15:0];
+    assign io_out = output_bits_out[15:0];
 
 endmodule
 
