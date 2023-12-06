@@ -480,6 +480,7 @@ module user_proj_example #(
     );
 
     assign io_out = output_bits_out[15:0];
+    //assign io_out = io_in[8] ? output_bits_out[15:0] : 16'h00;
 
 endmodule
 

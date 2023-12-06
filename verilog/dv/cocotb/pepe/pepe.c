@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #include <firmware_apis.h>
+
 int main(){
 	ManagmentGpio_outputEnable();
 	ManagmentGpio_write(0);
@@ -21,6 +21,7 @@ int main(){
 	for (int i = 0; i < 8; i++) {
 		GPIOs_configure(i, GPIO_MODE_USER_STD_OUTPUT);
 	}
+	//GPIOs_configure(8, GPIO_MODE_MGMT_STD_INPUT_PULLDOWN);
 	GPIOs_loadConfigs();
 	ManagmentGpio_write(1);
 }
