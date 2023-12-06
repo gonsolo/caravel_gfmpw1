@@ -438,7 +438,7 @@ module user_proj_example #(
     //assign io_oeb = {(BITS){reset}};
     assign io_oeb = 16'hFFFF;
     //assign io_oeb = 16'h0000;
-    assign io_out = 16'hFFFF;
+    //assign io_out = 16'hFFFF;
 
     //assign io_oeb = 16'h0000;
 
