@@ -15,10 +15,12 @@
 
 #include <firmware_apis.h>
 int main(){
-   ManagmentGpio_outputEnable();
-   ManagmentGpio_write(0);
-   enableHkSpi(0);
-   GPIOs_configureAll(GPIO_MODE_USER_STD_OUTPUT);
-   GPIOs_loadConfigs();
-   ManagmentGpio_write(1);
+	ManagmentGpio_outputEnable();
+	ManagmentGpio_write(0);
+	enableHkSpi(0);
+	for (int i = 0; i < 8; i++) {
+		GPIOs_configure(i, GPIO_MODE_USER_STD_OUTPUT);
+	}
+	GPIOs_loadConfigs();
+	ManagmentGpio_write(1);
 }
