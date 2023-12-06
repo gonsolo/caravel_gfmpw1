@@ -19,6 +19,7 @@ export OPENLANE_ROOT=$(PWD)/dependencies/openlane_src
 export PDK_ROOT=$(PWD)/dependencies/pdks
 export PDK=gf180mcuD
 export PRECHECK_ROOT=$(PWD)/dependencies/precheck
+export MPW_TAG = gfmpw-1d
 # end gonsolo
 
 MAKEFLAGS+=--warn-undefined-variables
@@ -32,8 +33,8 @@ SIM?=RTL
 CARAVEL_LITE?=1
 
 # PDK switch varient
-#export PDK?=gf180mcuD
-export PDK?=gf180mcuC
+export PDK?=gf180mcuD
+#export PDK?=gf180mcuC
 export PDKPATH?=$(PDK_ROOT)/$(PDK)
 
 PYTHON_BIN ?= python3
