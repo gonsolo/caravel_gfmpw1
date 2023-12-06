@@ -13,19 +13,12 @@
 // limitations under the License.
 
 
-#include <firmware_apis.h> // include required APIs
-void main(){
-   // Enable managment gpio as output to use as indicator for finishing configuration 
+#include <firmware_apis.h>
+int main(){
    ManagmentGpio_outputEnable();
    ManagmentGpio_write(0);
-   enableHkSpi(0); // disable housekeeping spi
-   //GPIOs_configureAll(GPIO_MODE_MGMT_STD_OUT);
-   //GPIOs_configureAll(GPIO_MODE_MGMT_STD_OUTPUT);
+   enableHkSpi(0);
    GPIOs_configureAll(GPIO_MODE_USER_STD_OUTPUT);
    GPIOs_loadConfigs();
-   //GPIOs_writeLow(0x8F);
-   ManagmentGpio_write(1); // configuration finished 
-
-   
-   return;
+   ManagmentGpio_write(1);
 }
