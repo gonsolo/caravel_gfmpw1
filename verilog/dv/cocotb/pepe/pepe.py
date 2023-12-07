@@ -37,8 +37,6 @@ async def pepe(dut):
     caravelEnv = await test_configure(dut)
     await caravelEnv.wait_mgmt_gpio(1)
 
-    await pepe_test(caravelEnv, 1, 0xFF)
+    await pepe_test(caravelEnv, 1, 0x4F)
     await pepe_test(caravelEnv, 0, 0x00)
-
-    #caravelEnv.drive_gpio_in(28, 1)
 
