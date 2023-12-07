@@ -394,7 +394,7 @@ endmodule
 `default_nettype none
 
 module user_proj_example #(
-    parameter BITS = 16
+    parameter BITS = 24
 )(
 `ifdef USE_POWER_PINS
     inout vdd,
@@ -419,34 +419,10 @@ module user_proj_example #(
     assign clock = wb_clk_i;
     assign reset = wb_rst_i;
 
-    //wire [BITS-1:0] rdata; 
-    //wire [BITS-1:0] wdata;
-    //wire [BITS-1:0] count;
-
-    //wire valid;
-    //wire [3:0] wstrb;
-    //wire [BITS-1:0] la_write;
-
-    // WB MI A
-    //assign valid = wbs_cyc_i && wbs_stb_i; 
-    //assign wstrb = wbs_sel_i & {4{wbs_we_i}};
-    //assign wbs_dat_o = {{(32-BITS){1'b0}}, rdata};
-    //assign wdata = wbs_dat_i[BITS-1:0];
-
-    // IO
-    //assign io_out = count;
-    //assign io_oeb = {(BITS){reset}};
-    assign io_oeb = 16'hFFFF;
-    //assign io_oeb = 16'h0000;
-    //assign io_out = 16'hFFFF;
-
-    //assign io_oeb = 16'h0000;
+    assign io_oeb = 24'h0000FF;
 
     // IRQ
     assign irq = 3'b000;	// Unused
-
-    // dummies
-    //assign rdata = 1;
 
     // diffuse dummies
     wire output_ready;
@@ -464,8 +440,7 @@ module user_proj_example #(
 	io_in,
         input_ready,
         output_valid,
-	output_bits_out[31:16],
-	//output_bits_out,
+	output_bits_out[31:8],
         1'b0};
 
     Diffuse diffuse(
@@ -479,8 +454,8 @@ module user_proj_example #(
         .output_bits_out(output_bits_out)
     );
 
-    assign io_out = output_bits_out[15:0];
-    //assign io_out = io_in[8] ? output_bits_out[15:0] : 16'h00;
+    assign io_out = { 16'h0000, output_bits_out[7:0] };
+    //assign io_out = io_in[15] ? output_bits_out[15:0] : 16'h00;
 
 endmodule
 

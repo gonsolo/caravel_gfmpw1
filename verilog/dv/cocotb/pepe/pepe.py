@@ -23,18 +23,11 @@ async def pepe(dut):
     caravelEnv = await test_configure(dut)
     await caravelEnv.wait_mgmt_gpio(1)
 
-    #caravelEnv.drive_gpio_in(8, 0)
+    caravelEnv.drive_gpio_in(37, 1)
+    await cocotb.triggers.ClockCycles(caravelEnv.clk, 1)
 
-    #cocotb.log.info(f"gonsolo: {caravelEnv.monitor_gpio(7,0).binstr}")
-    #value = caravelEnv.monitor_gpio(7,0).integer
-    #cocotb.log.info(f"gonsolo: {value} {hex(value)}")
-    #expected = 0x0
-    #if (value == expected):
-    #    cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
-    #else:
-    #    cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
-
-    #caravelEnv.drive_gpio_in(8, 1)
+    bits = caravelEnv.monitor_gpio(7,0).binstr
+    cocotb.log.info(f"gonsolo: {bits}")
 
     value = caravelEnv.monitor_gpio(7,0).integer
     cocotb.log.info(f"gonsolo: {value} {hex(value)}")
