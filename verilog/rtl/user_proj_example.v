@@ -440,7 +440,8 @@ module user_proj_example #(
 	io_in,
         input_ready,
         output_valid,
-	output_bits_out[31:8],
+	//output_bits_out[31:8],
+	output_bits_out,
         1'b0};
 
     Diffuse diffuse(
@@ -454,8 +455,16 @@ module user_proj_example #(
         .output_bits_out(output_bits_out)
     );
 
-    assign io_out = { 16'h0000, output_bits_out[7:0] };
-    //assign io_out = io_in[15] ? output_bits_out[15:0] : 16'h00;
+    assign io_out = { 24 {io_in[23] } };
+    //reg [23:0] bla;
+    //always @(posedge clock) begin
+    //bla <= io_in[23] ? 24'h111111 : 24'h000000;
+    //end
+    //assign io_out = bla;
+    //assign io_out = io_in[23] ? 24'h111111 : 24'h000000;
+
+    //assign io_out = { 16'h0000, output_bits_out[7:0] };
+    //assign io_out = seen_one ? 24'h000000 : { 16'h0000, output_bits_out[7:0] };
 
 endmodule
 

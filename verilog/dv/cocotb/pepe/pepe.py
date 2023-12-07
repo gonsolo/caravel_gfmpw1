@@ -17,23 +17,28 @@
 from caravel_cocotb.caravel_interfaces import * # import python APIs
 import cocotb
 
+async def pepe_test(env, drive, expected):
+    env.drive_gpio_in(28, drive)
+    await cocotb.triggers.ClockCycles(env.clk, 1)
+
+    bits = env.monitor_gpio(12,5).binstr
+    cocotb.log.info(f"gonsolo: {bits}")
+
+    value = env.monitor_gpio(12,5).integer
+    cocotb.log.info(f"gonsolo: {value} {hex(value)}")
+    if (value == expected):
+        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
+    else:
+        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
+
 @cocotb.test()
 @report_test
 async def pepe(dut):
     caravelEnv = await test_configure(dut)
     await caravelEnv.wait_mgmt_gpio(1)
 
-    caravelEnv.drive_gpio_in(37, 1)
-    await cocotb.triggers.ClockCycles(caravelEnv.clk, 1)
+    await pepe_test(caravelEnv, 1, 0xFF)
+    await pepe_test(caravelEnv, 0, 0x00)
 
-    bits = caravelEnv.monitor_gpio(7,0).binstr
-    cocotb.log.info(f"gonsolo: {bits}")
-
-    value = caravelEnv.monitor_gpio(7,0).integer
-    cocotb.log.info(f"gonsolo: {value} {hex(value)}")
-    expected = 0x4f
-    if (value == expected):
-        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
-    else:
-        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
+    #caravelEnv.drive_gpio_in(28, 1)
 

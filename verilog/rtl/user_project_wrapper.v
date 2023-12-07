@@ -77,9 +77,9 @@ module user_project_wrapper #(
 
 	    // IO Pads
 
-	    .io_in ({ io_in[37:30],  io_in[15:8],  io_in[7:0] }),
-	    .io_out({ io_out[37:30], io_out[15:8], io_out[7:0] }),
-	    .io_oeb({ io_oeb[37:30], io_out[15:8], io_oeb[7:0] }),
+	    .io_in ({ io_in [28:21], io_in [20:13], io_in [12:5] }),
+	    .io_out({ io_out[28:21], io_out[20:13], io_out[12:5] }),
+	    .io_oeb({ io_oeb[28:21], io_out[20:13], io_oeb[12:5] }),
 
 	    // IRQ
 	    .irq(user_irq)

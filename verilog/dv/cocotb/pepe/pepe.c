@@ -19,14 +19,18 @@ int main(){
 	ManagmentGpio_write(0);
 	enableHkSpi(0);
 
-	for (int i = 0; i < 8; i++) {
+	// output values
+	for (int i = 5; i < 13; i++) {
 		GPIOs_configure(i, GPIO_MODE_USER_STD_OUTPUT);
 	}
-
-	GPIOs_configure(37, GPIO_MODE_MGMT_STD_INPUT_PULLDOWN);
-	GPIOs_configure(36, GPIO_MODE_MGMT_STD_INPUT_PULLDOWN);
-	GPIOs_configure(35, GPIO_MODE_MGMT_STD_INPUT_PULLDOWN);
-	GPIOs_configure(34, GPIO_MODE_MGMT_STD_INPUT_PULLDOWN);
+	// input values
+	for (int i = 13; i < 21; i++) {
+		GPIOs_configure(i, GPIO_MODE_MGMT_STD_INPUT_PULLDOWN);
+	}
+	// input control
+	for (int i = 21; i < 29; i++) {
+		GPIOs_configure(i, GPIO_MODE_MGMT_STD_INPUT_PULLDOWN);
+	}
 
 	GPIOs_loadConfigs();
 	ManagmentGpio_write(1);
