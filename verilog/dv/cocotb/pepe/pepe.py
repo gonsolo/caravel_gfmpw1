@@ -17,18 +17,18 @@
 from caravel_cocotb.caravel_interfaces import *
 import cocotb
 
-async def set_byte(env, input_set, select1, select2, bit0, bit1, bit2, bit3, bit4, bit5, bit6, bit7):
+async def set_byte(env, input_set, select1, select2, value):
     env.drive_gpio_in(28, input_set)
     env.drive_gpio_in(27, select1)
     env.drive_gpio_in(26, select2)
-    env.drive_gpio_in(25, bit0)
-    env.drive_gpio_in(24, bit1)
-    env.drive_gpio_in(23, bit2)
-    env.drive_gpio_in(22, bit3)
-    env.drive_gpio_in(21, bit4)
-    env.drive_gpio_in(20, bit5)
-    env.drive_gpio_in(19, bit6)
-    env.drive_gpio_in(18, bit7)
+    env.drive_gpio_in(25, ((value & 0x80) >> 7))
+    env.drive_gpio_in(24, ((value & 0x40) >> 6))
+    env.drive_gpio_in(23, ((value & 0x20) >> 5))
+    env.drive_gpio_in(22, ((value & 0x10) >> 4))
+    env.drive_gpio_in(21, ((value & 0x08) >> 3))
+    env.drive_gpio_in(20, ((value & 0x04) >> 2))
+    env.drive_gpio_in(19, ((value & 0x02) >> 1))
+    env.drive_gpio_in(18, ((value & 0x01) >> 0))
     await cocotb.triggers.ClockCycles(env.clk, 2)
 
 async def expect_byte(env, input_set, select1, select2, expected):
@@ -48,10 +48,10 @@ async def expect_byte(env, input_set, select1, select2, expected):
 async def pepe_test(env):
 
     # 32 bit float -33.f as hex bits: C2040000
-    await set_byte(env, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0) # C2
-    await set_byte(env, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0) # 04
-    await set_byte(env, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0) # 00
-    await set_byte(env, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) # 00
+    await set_byte(env, 1, 1, 1, 0xC2) # C2
+    await set_byte(env, 1, 1, 0, 0x04) # 04
+    await set_byte(env, 1, 0, 1, 0x00) # 00
+    await set_byte(env, 1, 0, 0, 0x00) # 00
 
     # Result in hex: C128114F
     await expect_byte(env, 0, 1, 1, 0xC1) # C1
