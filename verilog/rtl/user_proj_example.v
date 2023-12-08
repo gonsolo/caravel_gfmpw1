@@ -461,18 +461,44 @@ module user_proj_example #(
     //assign io_out = { 24 {io_in[23] } };
     //assign io_out = io_in[23] ? { 16'h0000, output_bits_out[7:0] } : 24'h000000;
 
+    reg [7:0] byte0;
     reg [7:0] byte1;
+    reg [7:0] byte2;
+    reg [7:0] byte3;
+    reg [7:0] out_byte;
+
     initial begin
+        byte0 = 8'h00;
         byte1 = 8'h00;
+        byte2 = 8'h00;
+        byte3 = 8'h00;
+        out_byte = 8'h00;
     end
 
+    wire input_set = io_in[23];
+    wire [1:0] byte_select = io_in[22:21];
+    wire [7:0] input_byte = io_in[20:13];
+
     always @(posedge clock) begin
-	if (io_in[23])
-		byte1 <= io_in[20:13];
+	if (input_set) begin
+		case(byte_select)
+			2'b11: byte0 <= input_byte;
+			2'b10: byte1 <= input_byte;
+			2'b01: byte2 <= input_byte;
+			2'b00: byte3 <= input_byte;
+		endcase
+	end else begin
+		case(byte_select)
+			2'b11: out_byte <= byte0;
+			2'b10: out_byte <= byte1;
+			2'b01: out_byte <= byte2;
+			2'b00: out_byte <= byte3;
+		endcase
+	end
     end
 
     //assign io_out = { 16'h0000, byte1 };
-    assign io_out = { 16'h0, byte1 };
+    assign io_out = { 16'h0, out_byte };
 
 endmodule
 
