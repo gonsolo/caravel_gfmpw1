@@ -17,8 +17,8 @@
 from caravel_cocotb.caravel_interfaces import *
 import cocotb
 
-async def set_byte(env, input_set, select1, select2, value):
-    env.drive_gpio_in(28, input_set)
+async def set_byte(env, select1, select2, value):
+    env.drive_gpio_in(28, 1)
     env.drive_gpio_in(27, select1)
     env.drive_gpio_in(26, select2)
     env.drive_gpio_in(25, ((value & 0x80) >> 7))
@@ -31,8 +31,8 @@ async def set_byte(env, input_set, select1, select2, value):
     env.drive_gpio_in(18, ((value & 0x01) >> 0))
     await cocotb.triggers.ClockCycles(env.clk, 2)
 
-async def expect_byte(env, input_set, select1, select2, expected):
-    env.drive_gpio_in(28, input_set)
+async def expect_byte(env, select1, select2, expected):
+    env.drive_gpio_in(28, 0)
     env.drive_gpio_in(27, select1)
     env.drive_gpio_in(26, select2)
     await cocotb.triggers.ClockCycles(env.clk, 2)
@@ -45,19 +45,26 @@ async def expect_byte(env, input_set, select1, select2, expected):
     else:
         cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
 
+async def set_or_expect_byte(env, input_set, select1, select2, byte):
+    match input_set:
+        case 1:
+            await set_byte(env, select1, select2, byte)
+        case 0:
+            await expect_byte(env, select1, select2, byte)
+
 async def pepe_test(env):
 
     # 32 bit float -33.f as hex bits: C2040000
-    await set_byte(env, 1, 1, 1, 0xC2) # C2
-    await set_byte(env, 1, 1, 0, 0x04) # 04
-    await set_byte(env, 1, 0, 1, 0x00) # 00
-    await set_byte(env, 1, 0, 0, 0x00) # 00
+    await set_or_expect_byte(env, 1, 1, 1, 0xC2) # C2
+    await set_or_expect_byte(env, 1, 1, 0, 0x04) # 04
+    await set_or_expect_byte(env, 1, 0, 1, 0x00) # 00
+    await set_or_expect_byte(env, 1, 0, 0, 0x00) # 00
 
     # Result in hex: C128114F
-    await expect_byte(env, 0, 1, 1, 0xC1) # C1
-    await expect_byte(env, 0, 1, 0, 0x28) # 28
-    await expect_byte(env, 0, 0, 1, 0x11) # 11
-    await expect_byte(env, 0, 0, 0, 0x4f) # 4f
+    await set_or_expect_byte(env, 0, 1, 1, 0xC1) # C1
+    await set_or_expect_byte(env, 0, 1, 0, 0x28) # 28
+    await set_or_expect_byte(env, 0, 0, 1, 0x11) # 11
+    await set_or_expect_byte(env, 0, 0, 0, 0x4f) # 4f
 
 @cocotb.test()
 @report_test
