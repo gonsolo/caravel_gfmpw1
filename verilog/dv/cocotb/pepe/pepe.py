@@ -31,6 +31,20 @@ async def set_byte(env, input_set, select1, select2, bit0, bit1, bit2, bit3, bit
     env.drive_gpio_in(18, bit7)
     await cocotb.triggers.ClockCycles(env.clk, 2)
 
+async def expect_byte(env, input_set, select1, select2, expected):
+    env.drive_gpio_in(28, input_set)
+    env.drive_gpio_in(27, select1)
+    env.drive_gpio_in(26, select2)
+    await cocotb.triggers.ClockCycles(env.clk, 2)
+    bits = env.monitor_gpio(12,5)
+    bits_string = bits.binstr
+    value = bits.integer
+    cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
+    if (value == expected):
+        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
+    else:
+        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
+
 async def pepe_test(env):
 
     # 32 bit float -33.f as hex bits: C2040000
@@ -39,62 +53,11 @@ async def pepe_test(env):
     await set_byte(env, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0) # 00
     await set_byte(env, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) # 00
 
-    # Result in hex: c128114f
-    env.drive_gpio_in(28, 0)
-    env.drive_gpio_in(27, 1)
-    env.drive_gpio_in(26, 1)
-    await cocotb.triggers.ClockCycles(env.clk, 2)
-    expected = 0xC1
-    bits = env.monitor_gpio(12,5)
-    bits_string = bits.binstr
-    value = bits.integer
-    cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
-    if (value == expected):
-        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
-    else:
-        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
-
-    env.drive_gpio_in(28, 0)
-    env.drive_gpio_in(27, 1)
-    env.drive_gpio_in(26, 0)
-    await cocotb.triggers.ClockCycles(env.clk, 2)
-    expected = 0x28
-    bits = env.monitor_gpio(12,5)
-    bits_string = bits.binstr
-    value = bits.integer
-    cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
-    if (value == expected):
-        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
-    else:
-        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
-
-    env.drive_gpio_in(28, 0)
-    env.drive_gpio_in(27, 0)
-    env.drive_gpio_in(26, 1)
-    await cocotb.triggers.ClockCycles(env.clk, 2)
-    expected = 0x11
-    bits = env.monitor_gpio(12,5)
-    bits_string = bits.binstr
-    value = bits.integer
-    cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
-    if (value == expected):
-        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
-    else:
-        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
-
-    env.drive_gpio_in(28, 0)
-    env.drive_gpio_in(27, 0)
-    env.drive_gpio_in(26, 0)
-    await cocotb.triggers.ClockCycles(env.clk, 2)
-    expected = 0x4f
-    bits = env.monitor_gpio(12,5)
-    bits_string = bits.binstr
-    value = bits.integer
-    cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
-    if (value == expected):
-        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
-    else:
-        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
+    # Result in hex: C128114F
+    await expect_byte(env, 0, 1, 1, 0xC1) # C1
+    await expect_byte(env, 0, 1, 0, 0x28) # 28
+    await expect_byte(env, 0, 0, 1, 0x11) # 11
+    await expect_byte(env, 0, 0, 0, 0x4f) # 4f
 
 @cocotb.test()
 @report_test
