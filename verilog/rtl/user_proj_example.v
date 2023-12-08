@@ -429,7 +429,10 @@ module user_proj_example #(
     assign output_ready = 1;
     wire [31:0] input_bits_reflectance;
     //assign input_bits_reflectance = 1065353216; // 32 bit float   1.f as uint32
+
     assign input_bits_reflectance = 3255042048; // 32 bit float -33.f as uint32
+    // hex: C2040000
+
     wire input_valid;
     assign input_valid = 1;
     wire input_ready;
@@ -456,7 +459,20 @@ module user_proj_example #(
     );
 
     //assign io_out = { 24 {io_in[23] } };
-    assign io_out = io_in[23] ? { 16'h0000, output_bits_out[7:0] } : 24'h000000;
+    //assign io_out = io_in[23] ? { 16'h0000, output_bits_out[7:0] } : 24'h000000;
+
+    reg [7:0] byte1;
+    initial begin
+        byte1 = 8'h00;
+    end
+
+    always @(posedge clock) begin
+	if (io_in[23])
+		byte1 <= io_in[20:13];
+    end
+
+    //assign io_out = { 16'h0000, byte1 };
+    assign io_out = { 16'h0, byte1 };
 
 endmodule
 
