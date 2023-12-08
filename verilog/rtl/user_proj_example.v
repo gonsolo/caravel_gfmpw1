@@ -433,6 +433,7 @@ module user_proj_example #(
     //assign input_bits_reflectance = 3255042048; // 32 bit float -33.f as uint32
     assign input_bits_reflectance = { byte0, byte1, byte2, byte3 };
     // hex: C2040000
+    // The result is -33 / pi = -10.5042, hex: c128114f
 
     wire input_valid;
     assign input_valid = 1;
@@ -490,16 +491,15 @@ module user_proj_example #(
 		endcase
 	end else begin
 		case(byte_select)
-			2'b11: out_byte <= byte0;
-			2'b10: out_byte <= byte1;
-			2'b01: out_byte <= byte2;
-			2'b00: out_byte <= byte3;
+			2'b11: out_byte <= output_bits_out[31:24];
+			2'b10: out_byte <= output_bits_out[23:16];
+			2'b01: out_byte <= output_bits_out[15:8];
+			2'b00: out_byte <= output_bits_out[7:0];
 		endcase
 	end
     end
 
-    assign io_out = { 16'h0000, output_bits_out[7:0] };
-    //assign io_out = { 16'h0, out_byte };
+    assign io_out = { 16'h0, out_byte };
 
 endmodule
 

@@ -99,13 +99,54 @@ async def pepe_set(env):
     env.drive_gpio_in(18, 0)
     await cocotb.triggers.ClockCycles(env.clk, 2)
 
-    # Read first byte:
-    #env.drive_gpio_in(28, 0)
-    # 27-26 select one of four bytes
-    #env.drive_gpio_in(27, 1)
-    #env.drive_gpio_in(26, 1)
+    # Result in hex: c128114f
+    env.drive_gpio_in(28, 0)
+    env.drive_gpio_in(27, 1)
+    env.drive_gpio_in(26, 1)
     await cocotb.triggers.ClockCycles(env.clk, 2)
-    expected = 0x4F
+    expected = 0xC1
+    bits = env.monitor_gpio(12,5)
+    bits_string = bits.binstr
+    value = bits.integer
+    cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
+    if (value == expected):
+        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
+    else:
+        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
+
+    env.drive_gpio_in(28, 0)
+    env.drive_gpio_in(27, 1)
+    env.drive_gpio_in(26, 0)
+    await cocotb.triggers.ClockCycles(env.clk, 2)
+    expected = 0x28
+    bits = env.monitor_gpio(12,5)
+    bits_string = bits.binstr
+    value = bits.integer
+    cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
+    if (value == expected):
+        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
+    else:
+        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
+
+    env.drive_gpio_in(28, 0)
+    env.drive_gpio_in(27, 0)
+    env.drive_gpio_in(26, 1)
+    await cocotb.triggers.ClockCycles(env.clk, 2)
+    expected = 0x11
+    bits = env.monitor_gpio(12,5)
+    bits_string = bits.binstr
+    value = bits.integer
+    cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
+    if (value == expected):
+        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
+    else:
+        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
+
+    env.drive_gpio_in(28, 0)
+    env.drive_gpio_in(27, 0)
+    env.drive_gpio_in(26, 0)
+    await cocotb.triggers.ClockCycles(env.clk, 2)
+    expected = 0x4f
     bits = env.monitor_gpio(12,5)
     bits_string = bits.binstr
     value = bits.integer
