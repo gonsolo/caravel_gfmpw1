@@ -413,55 +413,29 @@ module user_proj_example #(
     output [2:0] irq
 );
 
-    wire clock;
-    wire reset;
-
-    assign clock = wb_clk_i;
-    assign reset = wb_rst_i;
+    wire clock = wb_clk_i;
+    wire reset = wb_rst_i;
 
     assign io_oeb = 24'h0000FF;
-
-    // IRQ
     assign irq = 3'b000;	// Unused
 
-    // diffuse dummies
-    wire output_ready;
-    assign output_ready = 1;
-    wire [31:0] input_bits_reflectance;
-    //assign input_bits_reflectance = 1065353216; // 32 bit float   1.f as uint32
-
-    //assign input_bits_reflectance = 3255042048; // 32 bit float -33.f as uint32
-    assign input_bits_reflectance = { byte0, byte1, byte2, byte3 };
-    // hex: C2040000
-    // The result is -33 / pi = -10.5042, hex: c128114f
-
-    wire input_valid;
-    assign input_valid = 1;
-    wire input_ready;
-    wire output_valid;
+    wire [31:0] input_bits_reflectance = { byte0, byte1, byte2, byte3 };
+    wire input_valid = 1;
+    wire input_ready;		// Unused
+    wire output_ready = 1;
+    wire output_valid;		// Unused
     wire [31:0] output_bits_out;
+    wire input_set = io_in[23];
+    wire [1:0] byte_select = io_in[22:21];
+    wire [7:0] input_byte = io_in[20:13];
+
     wire _unused_ok = &{
         1'b0,
 	io_in,
         input_ready,
         output_valid,
-	//output_bits_out[31:8],
-	output_bits_out,
-        1'b0};
-
-    Diffuse diffuse(
-        .clock(clock),
-        .reset(reset),
-        .input_valid(input_valid),
-        .input_ready(input_ready),
-        .input_bits_reflectance(input_bits_reflectance),
-        .output_valid(output_valid),
-        .output_ready(output_ready),
-        .output_bits_out(output_bits_out)
-    );
-
-    //assign io_out = { 24 {io_in[23] } };
-    //assign io_out = io_in[23] ? { 16'h0000, output_bits_out[7:0] } : 24'h000000;
+        1'b0
+    };
 
     reg [7:0] byte0;
     reg [7:0] byte1;
@@ -477,9 +451,16 @@ module user_proj_example #(
         out_byte = 8'h00;
     end
 
-    wire input_set = io_in[23];
-    wire [1:0] byte_select = io_in[22:21];
-    wire [7:0] input_byte = io_in[20:13];
+    Diffuse diffuse(
+        .clock(clock),
+        .reset(reset),
+        .input_valid(input_valid),
+        .input_ready(input_ready),
+        .input_bits_reflectance(input_bits_reflectance),
+        .output_valid(output_valid),
+        .output_ready(output_ready),
+        .output_bits_out(output_bits_out)
+    );
 
     always @(posedge clock) begin
 	if (input_set) begin
