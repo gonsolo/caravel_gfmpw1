@@ -100,60 +100,12 @@ async def pepe_set(env):
     await cocotb.triggers.ClockCycles(env.clk, 2)
 
     # Read first byte:
-    env.drive_gpio_in(28, 0)
+    #env.drive_gpio_in(28, 0)
     # 27-26 select one of four bytes
-    env.drive_gpio_in(27, 1)
-    env.drive_gpio_in(26, 1)
+    #env.drive_gpio_in(27, 1)
+    #env.drive_gpio_in(26, 1)
     await cocotb.triggers.ClockCycles(env.clk, 2)
-    expected = 0xC2
-    bits = env.monitor_gpio(12,5)
-    bits_string = bits.binstr
-    value = bits.integer
-    cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
-    if (value == expected):
-        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
-    else:
-        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
-
-    # Read second byte:
-    env.drive_gpio_in(28, 0)
-    # 27-26 select one of four bytes
-    env.drive_gpio_in(27, 1)
-    env.drive_gpio_in(26, 0)
-    await cocotb.triggers.ClockCycles(env.clk, 2)
-    expected = 0x04
-    bits = env.monitor_gpio(12,5)
-    bits_string = bits.binstr
-    value = bits.integer
-    cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
-    if (value == expected):
-        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
-    else:
-        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
-
-    # Read third byte:
-    env.drive_gpio_in(28, 0)
-    # 27-26 select one of four bytes
-    env.drive_gpio_in(27, 0)
-    env.drive_gpio_in(26, 1)
-    await cocotb.triggers.ClockCycles(env.clk, 2)
-    expected = 0x00
-    bits = env.monitor_gpio(12,5)
-    bits_string = bits.binstr
-    value = bits.integer
-    cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
-    if (value == expected):
-        cocotb.log.info (f"[TEST] Pass the value is '{hex(value)}'")
-    else:
-        cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
-
-    # Read forth byte:
-    env.drive_gpio_in(28, 0)
-    # 27-26 select one of four bytes
-    env.drive_gpio_in(27, 0)
-    env.drive_gpio_in(26, 0)
-    await cocotb.triggers.ClockCycles(env.clk, 2)
-    expected = 0x00
+    expected = 0x4F
     bits = env.monitor_gpio(12,5)
     bits_string = bits.binstr
     value = bits.integer

@@ -430,7 +430,8 @@ module user_proj_example #(
     wire [31:0] input_bits_reflectance;
     //assign input_bits_reflectance = 1065353216; // 32 bit float   1.f as uint32
 
-    assign input_bits_reflectance = 3255042048; // 32 bit float -33.f as uint32
+    //assign input_bits_reflectance = 3255042048; // 32 bit float -33.f as uint32
+    assign input_bits_reflectance = { byte0, byte1, byte2, byte3 };
     // hex: C2040000
 
     wire input_valid;
@@ -497,8 +498,8 @@ module user_proj_example #(
 	end
     end
 
-    //assign io_out = { 16'h0000, byte1 };
-    assign io_out = { 16'h0, out_byte };
+    assign io_out = { 16'h0000, output_bits_out[7:0] };
+    //assign io_out = { 16'h0, out_byte };
 
 endmodule
 
