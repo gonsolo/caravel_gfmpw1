@@ -17,26 +17,45 @@
 from caravel_cocotb.caravel_interfaces import *
 import cocotb
 
+# 1: Write data, 0: Read data.
+WRITE = 28
+# Select which of four bytes for a 32 bit float to write (0-3)
+SELECT1= 27
+SELECT2= 26
+# The 8 bits of a byte mapped to input pins
+INPUT7 = 25
+INPUT6 = INPUT7 - 1
+INPUT5 = INPUT7 - 2
+INPUT4 = INPUT7 - 3
+INPUT3 = INPUT7 - 4
+INPUT2 = INPUT7 - 5
+INPUT1 = INPUT7 - 6
+INPUT0 = INPUT7 - 7
+
+# The output bits of a byte
+OUTPUT7 = 12
+OUTPUT0 = OUTPUT7 - 7
+
 async def set_byte(env, select1, select2, value):
-    env.drive_gpio_in(28, 1)
-    env.drive_gpio_in(27, select1)
-    env.drive_gpio_in(26, select2)
-    env.drive_gpio_in(25, ((value & 0x80) >> 7))
-    env.drive_gpio_in(24, ((value & 0x40) >> 6))
-    env.drive_gpio_in(23, ((value & 0x20) >> 5))
-    env.drive_gpio_in(22, ((value & 0x10) >> 4))
-    env.drive_gpio_in(21, ((value & 0x08) >> 3))
-    env.drive_gpio_in(20, ((value & 0x04) >> 2))
-    env.drive_gpio_in(19, ((value & 0x02) >> 1))
-    env.drive_gpio_in(18, ((value & 0x01) >> 0))
+    env.drive_gpio_in(WRITE, 1)
+    env.drive_gpio_in(SELECT1, select1)
+    env.drive_gpio_in(SELECT2, select2)
+    env.drive_gpio_in(INPUT7, ((value & 0x80) >> 7))
+    env.drive_gpio_in(INPUT6, ((value & 0x40) >> 6))
+    env.drive_gpio_in(INPUT5, ((value & 0x20) >> 5))
+    env.drive_gpio_in(INPUT4, ((value & 0x10) >> 4))
+    env.drive_gpio_in(INPUT3, ((value & 0x08) >> 3))
+    env.drive_gpio_in(INPUT2, ((value & 0x04) >> 2))
+    env.drive_gpio_in(INPUT1, ((value & 0x02) >> 1))
+    env.drive_gpio_in(INPUT0, ((value & 0x01) >> 0))
     await cocotb.triggers.ClockCycles(env.clk, 2)
 
 async def expect_byte(env, select1, select2, expected):
-    env.drive_gpio_in(28, 0)
-    env.drive_gpio_in(27, select1)
-    env.drive_gpio_in(26, select2)
+    env.drive_gpio_in(WRITE, 0)
+    env.drive_gpio_in(SELECT1, select1)
+    env.drive_gpio_in(SELECT2, select2)
     await cocotb.triggers.ClockCycles(env.clk, 2)
-    bits = env.monitor_gpio(12,5)
+    bits = env.monitor_gpio(OUTPUT7, OUTPUT0)
     bits_string = bits.binstr
     value = bits.integer
     cocotb.log.info(f"gonsolo: {bits_string} {hex(value)}")
