@@ -20,6 +20,8 @@ export PDK_ROOT=$(PWD)/dependencies/pdks
 export PDK=gf180mcuD
 export PRECHECK_ROOT=$(PWD)/dependencies/precheck
 export MPW_TAG = gfmpw-1d
+all:
+	@echo "Don't delete caravel you idiot!"
 # end gonsolo
 
 MAKEFLAGS+=--warn-undefined-variables
