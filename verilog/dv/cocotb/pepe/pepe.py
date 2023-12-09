@@ -58,17 +58,22 @@ async def set_or_expect_uint32(env, input_set, value):
     await set_or_expect_byte(env, input_set, 0, 1, (value & 0x0000FF00) >> 8)
     await set_or_expect_byte(env, input_set, 0, 0, (value & 0x000000FF) >> 0)
 
-async def pepe_test(env):
+async def pepe_test(env, value, expected):
 
-    # 32 bit float -33.f as hex bits: C2040000
-    await set_or_expect_uint32(env, 1, 0xC2040000)
-    # 32 bit result: -33.f / pi
-    await set_or_expect_uint32(env, 0, 0xC128114F)
+    await set_or_expect_uint32(env, 1, value)
+    await set_or_expect_uint32(env, 0, expected)
 
 @cocotb.test()
 @report_test
 async def pepe(dut):
     caravelEnv = await test_configure(dut)
     await caravelEnv.wait_mgmt_gpio(1)
-    await pepe_test(caravelEnv)
+
+    #test_values = 
+
+    # A diffuse shader returns x / pi
+    # Input: -33.f, output: -33.f / pi
+    await pepe_test(caravelEnv, 0xC2040000, 0xC128114F)
+    # Input: 0.3f, output: 0.3f / pi
+    await pepe_test(caravelEnv, 0x3e99999a, 0x3dc391d1)
 
