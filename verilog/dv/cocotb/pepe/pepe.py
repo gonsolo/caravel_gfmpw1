@@ -69,13 +69,15 @@ async def pepe(dut):
     caravelEnv = await test_configure(dut)
     await caravelEnv.wait_mgmt_gpio(1)
 
-    #test_values = 
+    test_pairs = [
+        # Input: -33.f, output: -33.f / pi
+        [0xC2040000, 0xC128114F],
+        # Input: 0.3f, output: 0.3f / pi
+        [0x3e99999a, 0x3dc391d1],
+        # Input: 0.f, output: 0.f / pi == 0.f
+        [0x0, 0x0]
+    ]
 
-    # A diffuse shader returns x / pi
-    # Input: -33.f, output: -33.f / pi
-    await pepe_test(caravelEnv, 0xC2040000, 0xC128114F)
-    # Input: 0.3f, output: 0.3f / pi
-    await pepe_test(caravelEnv, 0x3e99999a, 0x3dc391d1)
-    # Input: 0.f, output: 0.f / pi == 0.f
-    await pepe_test(caravelEnv, 0x0, 0x0)
+    for pair in test_pairs:
+        await pepe_test(caravelEnv, pair[0], pair[1])
 
