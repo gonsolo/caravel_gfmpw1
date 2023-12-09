@@ -76,4 +76,6 @@ async def pepe(dut):
     await pepe_test(caravelEnv, 0xC2040000, 0xC128114F)
     # Input: 0.3f, output: 0.3f / pi
     await pepe_test(caravelEnv, 0x3e99999a, 0x3dc391d1)
+    # Input: 0.f, output: 0.f / pi == 0.f
+    await pepe_test(caravelEnv, 0x0, 0x0)
 
