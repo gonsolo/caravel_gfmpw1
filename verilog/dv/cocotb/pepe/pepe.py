@@ -53,9 +53,6 @@ async def set_or_expect_byte(env, input_set, select1, select2, byte):
             await expect_byte(env, select1, select2, byte)
 
 async def set_or_expect_uint32(env, input_set, value):
-    #mask = 0xFF000000
-    #shift = 24
-    #print(hex(value), hex(value & mask), hex((value & mask) >> shift))
     await set_or_expect_byte(env, input_set, 1, 1, (value & 0xFF000000) >> 24)
     await set_or_expect_byte(env, input_set, 1, 0, (value & 0x00FF0000) >> 16)
     await set_or_expect_byte(env, input_set, 0, 1, (value & 0x0000FF00) >> 8)
@@ -63,20 +60,10 @@ async def set_or_expect_uint32(env, input_set, value):
 
 async def pepe_test(env):
 
-    await set_or_expect_uint32(env, 1, 0xC2040000)
-    await set_or_expect_uint32(env, 0, 0xC128114F)
-
     # 32 bit float -33.f as hex bits: C2040000
-    #await set_or_expect_byte(env, 1, 1, 1, 0xC2) # C2
-    #await set_or_expect_byte(env, 1, 1, 0, 0x04) # 04
-    #await set_or_expect_byte(env, 1, 0, 1, 0x00) # 00
-    #await set_or_expect_byte(env, 1, 0, 0, 0x00) # 00
-
-    # Result in hex: C128114F
-    #await set_or_expect_byte(env, 0, 1, 1, 0xC1) # C1
-    #await set_or_expect_byte(env, 0, 1, 0, 0x28) # 28
-    #await set_or_expect_byte(env, 0, 0, 1, 0x11) # 11
-    #await set_or_expect_byte(env, 0, 0, 0, 0x4f) # 4f
+    await set_or_expect_uint32(env, 1, 0xC2040000)
+    # 32 bit result: -33.f / pi
+    await set_or_expect_uint32(env, 0, 0xC128114F)
 
 @cocotb.test()
 @report_test
