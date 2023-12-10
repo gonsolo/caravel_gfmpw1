@@ -40,8 +40,10 @@ INPUT0 = INPUT7 - 7
 OUTPUT7 = 12
 OUTPUT0 = OUTPUT7 - 7
 
-async def set_byte(env, byte_select0, byte_select1, value):
+async def set_byte(env, channel_select0, channel_select1, byte_select0, byte_select1, value):
     env.drive_gpio_in(WRITE, 1)
+    env.drive_gpio_in(CHANNEL_SELECT0, channel_select0)
+    env.drive_gpio_in(CHANNEL_SELECT1, channel_select1)
     env.drive_gpio_in(BYTE_SELECT0, byte_select0)
     env.drive_gpio_in(BYTE_SELECT1, byte_select1)
     env.drive_gpio_in(INPUT7, ((value & 0x80) >> 7))
@@ -54,8 +56,10 @@ async def set_byte(env, byte_select0, byte_select1, value):
     env.drive_gpio_in(INPUT0, ((value & 0x01) >> 0))
     await cocotb.triggers.ClockCycles(env.clk, 2)
 
-async def expect_byte(env, byte_select0, byte_select1, expected):
+async def expect_byte(env, channel_select0, channel_select1, byte_select0, byte_select1, expected):
     env.drive_gpio_in(WRITE, 0)
+    env.drive_gpio_in(CHANNEL_SELECT0, channel_select0)
+    env.drive_gpio_in(CHANNEL_SELECT1, channel_select1)
     env.drive_gpio_in(BYTE_SELECT0, byte_select0)
     env.drive_gpio_in(BYTE_SELECT1, byte_select1)
     await cocotb.triggers.ClockCycles(env.clk, 2)
@@ -68,21 +72,20 @@ async def expect_byte(env, byte_select0, byte_select1, expected):
     else:
         cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
 
-async def set_or_expect_byte(env, input_set, byte_select0, byte_select1, byte):
+async def set_or_expect_byte(env, input_set, channel_select0, channel_select1, byte_select0, byte_select1, byte):
     match input_set:
         case 1:
-            await set_byte(env, byte_select0, byte_select1, byte)
+            await set_byte(env, channel_select0, channel_select1, byte_select0, byte_select1, byte)
         case 0:
-            await expect_byte(env, byte_select0, byte_select1, byte)
+            await expect_byte(env, channel_select0, channel_select1, byte_select0, byte_select1, byte)
 
 async def set_or_expect_uint32(env, input_set, value):
-    await set_or_expect_byte(env, input_set, 1, 1, (value & 0xFF000000) >> 24)
-    await set_or_expect_byte(env, input_set, 1, 0, (value & 0x00FF0000) >> 16)
-    await set_or_expect_byte(env, input_set, 0, 1, (value & 0x0000FF00) >> 8)
-    await set_or_expect_byte(env, input_set, 0, 0, (value & 0x000000FF) >> 0)
+    await set_or_expect_byte(env, input_set, 0, 0, 1, 1, (value & 0xFF000000) >> 24)
+    await set_or_expect_byte(env, input_set, 0, 0, 1, 0, (value & 0x00FF0000) >> 16)
+    await set_or_expect_byte(env, input_set, 0, 0, 0, 1, (value & 0x0000FF00) >> 8)
+    await set_or_expect_byte(env, input_set, 0, 0, 0, 0, (value & 0x000000FF) >> 0)
 
 async def pepe_test(env, value, expected):
-
     await set_or_expect_uint32(env, 1, value)
     await set_or_expect_uint32(env, 0, expected)
 

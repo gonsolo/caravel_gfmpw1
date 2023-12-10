@@ -510,6 +510,7 @@ module user_proj_example #(
     wire [31:0] output_bits_out_values_2;
 
     wire input_set = io_in[`WRITE];
+    wire [1:0] channel_select = io_in[`CHANNEL_SELECT0:`CHANNEL_SELECT1];
     wire [1:0] byte_select = io_in[`BYTE_SELECT0:`BYTE_SELECT1];
     wire [7:0] input_byte = io_in[`INPUT7:`INPUT0];
 
@@ -539,20 +540,55 @@ module user_proj_example #(
     );
 
     always @(posedge clock) begin
-	// TODO: channel 1 and 2
 	if (input_set) begin
-		case(byte_select)
+		case(channel_select)
+		default: ; // Nothing to do: There is no channel 4
+		2'b10:
+			case (byte_select)
+			2'b11: channel2_byte0 <= input_byte;
+			2'b10: channel2_byte1 <= input_byte;
+			2'b01: channel2_byte2 <= input_byte;
+			2'b00: channel2_byte3 <= input_byte;
+			endcase
+		2'b01:
+			case (byte_select)
+			2'b11: channel1_byte0 <= input_byte;
+			2'b10: channel1_byte1 <= input_byte;
+			2'b01: channel1_byte2 <= input_byte;
+			2'b00: channel1_byte3 <= input_byte;
+			endcase
+		2'b00:
+			case (byte_select)
 			2'b11: channel0_byte0 <= input_byte;
 			2'b10: channel0_byte1 <= input_byte;
 			2'b01: channel0_byte2 <= input_byte;
 			2'b00: channel0_byte3 <= input_byte;
+			endcase
 		endcase
 	end else begin
-		case(byte_select)
-			2'b11: out_byte <= output_bits_out_values_0[31:24];
-			2'b10: out_byte <= output_bits_out_values_0[23:16];
-			2'b01: out_byte <= output_bits_out_values_0[15:8];
-			2'b00: out_byte <= output_bits_out_values_0[7:0];
+		case (channel_select)
+		default: ; // Nothing to do: There is no channel 4
+		2'b10:
+			case(byte_select)
+				2'b11: out_byte <= output_bits_out_values_2[31:24];
+				2'b10: out_byte <= output_bits_out_values_2[23:16];
+				2'b01: out_byte <= output_bits_out_values_2[15:8];
+				2'b00: out_byte <= output_bits_out_values_2[7:0];
+			endcase
+		2'b01:
+			case(byte_select)
+				2'b11: out_byte <= output_bits_out_values_1[31:24];
+				2'b10: out_byte <= output_bits_out_values_1[23:16];
+				2'b01: out_byte <= output_bits_out_values_1[15:8];
+				2'b00: out_byte <= output_bits_out_values_1[7:0];
+			endcase
+		2'b00:
+			case(byte_select)
+				2'b11: out_byte <= output_bits_out_values_0[31:24];
+				2'b10: out_byte <= output_bits_out_values_0[23:16];
+				2'b01: out_byte <= output_bits_out_values_0[15:8];
+				2'b00: out_byte <= output_bits_out_values_0[7:0];
+			endcase
 		endcase
 	end
     end
