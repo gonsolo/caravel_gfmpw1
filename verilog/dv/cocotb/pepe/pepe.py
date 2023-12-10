@@ -79,15 +79,15 @@ async def set_or_expect_byte(env, input_set, channel_select0, channel_select1, b
         case 0:
             await expect_byte(env, channel_select0, channel_select1, byte_select0, byte_select1, byte)
 
-async def set_or_expect_uint32(env, input_set, value):
-    await set_or_expect_byte(env, input_set, 0, 0, 1, 1, (value & 0xFF000000) >> 24)
-    await set_or_expect_byte(env, input_set, 0, 0, 1, 0, (value & 0x00FF0000) >> 16)
-    await set_or_expect_byte(env, input_set, 0, 0, 0, 1, (value & 0x0000FF00) >> 8)
-    await set_or_expect_byte(env, input_set, 0, 0, 0, 0, (value & 0x000000FF) >> 0)
+async def set_or_expect_uint32(env, input_set, channel_select0, channel_select1, value):
+    await set_or_expect_byte(env, input_set, channel_select0, channel_select1, 1, 1, (value & 0xFF000000) >> 24)
+    await set_or_expect_byte(env, input_set, channel_select0, channel_select1, 1, 0, (value & 0x00FF0000) >> 16)
+    await set_or_expect_byte(env, input_set, channel_select0, channel_select1, 0, 1, (value & 0x0000FF00) >> 8)
+    await set_or_expect_byte(env, input_set, channel_select0, channel_select1, 0, 0, (value & 0x000000FF) >> 0)
 
-async def pepe_test(env, value, expected):
-    await set_or_expect_uint32(env, 1, value)
-    await set_or_expect_uint32(env, 0, expected)
+async def pepe_test_channel(env, channel_select0, channel_select1, value, expected):
+    await set_or_expect_uint32(env, 1, channel_select0, channel_select1, value)
+    await set_or_expect_uint32(env, 0, channel_select0, channel_select1, expected)
 
 @cocotb.test()
 @report_test
@@ -105,5 +105,7 @@ async def pepe(dut):
     ]
 
     for pair in test_pairs:
-        await pepe_test(caravelEnv, pair[0], pair[1])
+        await pepe_test_channel(caravelEnv, 0, 0, pair[0], pair[1])
+        await pepe_test_channel(caravelEnv, 0, 1, pair[0], pair[1])
+        await pepe_test_channel(caravelEnv, 1, 0, pair[0], pair[1])
 
