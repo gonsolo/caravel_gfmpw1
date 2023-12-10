@@ -476,9 +476,30 @@ module user_proj_example #(
     assign io_oeb = 24'h0000FF;
     assign irq = 3'b000;	// Unused
 
-    wire [31:0] input_bits_reflectance_values_0 = { byte0, byte1, byte2, byte3 };
-    wire [31:0] input_bits_reflectance_values_1 = { byte0, byte1, byte2, byte3 };
-    wire [31:0] input_bits_reflectance_values_2 = { byte0, byte1, byte2, byte3 };
+    reg [7:0] channel0_byte0, channel0_byte1, channel0_byte2, channel0_byte3;
+    reg [7:0] channel1_byte0, channel1_byte1, channel1_byte2, channel1_byte3;
+    reg [7:0] channel2_byte0, channel2_byte1, channel2_byte2, channel2_byte3;
+    reg [7:0] out_byte;
+
+    initial begin
+        channel0_byte0 = 8'h00;
+        channel0_byte1 = 8'h00;
+        channel0_byte2 = 8'h00;
+        channel0_byte3 = 8'h00;
+        channel1_byte0 = 8'h00;
+        channel1_byte1 = 8'h00;
+        channel1_byte2 = 8'h00;
+        channel1_byte3 = 8'h00;
+        channel2_byte0 = 8'h00;
+        channel2_byte1 = 8'h00;
+        channel2_byte2 = 8'h00;
+        channel2_byte3 = 8'h00;
+        out_byte = 8'h00;
+    end
+
+    wire [31:0] input_bits_reflectance_values_0 = { channel0_byte0, channel0_byte1, channel0_byte2, channel0_byte3 };
+    wire [31:0] input_bits_reflectance_values_1 = { channel1_byte0, channel1_byte1, channel1_byte2, channel1_byte3 };
+    wire [31:0] input_bits_reflectance_values_2 = { channel2_byte0, channel2_byte1, channel2_byte2, channel2_byte3 };
     wire input_valid = 1;
     wire input_ready;		// Unused
     wire output_ready = 1;
@@ -494,25 +515,13 @@ module user_proj_example #(
 
     wire _unused_ok = &{
         1'b0,
-	io_in,
+	io_in[12:0],
         input_ready,
         output_valid,
+	output_bits_out_values_1,
+	output_bits_out_values_2,
         1'b0
     };
-
-    reg [7:0] byte0;
-    reg [7:0] byte1;
-    reg [7:0] byte2;
-    reg [7:0] byte3;
-    reg [7:0] out_byte;
-
-    initial begin
-        byte0 = 8'h00;
-        byte1 = 8'h00;
-        byte2 = 8'h00;
-        byte3 = 8'h00;
-        out_byte = 8'h00;
-    end
 
     Diffuse diffuse(
         .clock(clock),
@@ -530,12 +539,13 @@ module user_proj_example #(
     );
 
     always @(posedge clock) begin
+	// TODO: channel 1 and 2
 	if (input_set) begin
 		case(byte_select)
-			2'b11: byte0 <= input_byte;
-			2'b10: byte1 <= input_byte;
-			2'b01: byte2 <= input_byte;
-			2'b00: byte3 <= input_byte;
+			2'b11: channel0_byte0 <= input_byte;
+			2'b10: channel0_byte1 <= input_byte;
+			2'b01: channel0_byte2 <= input_byte;
+			2'b00: channel0_byte3 <= input_byte;
 		endcase
 	end else begin
 		case(byte_select)
