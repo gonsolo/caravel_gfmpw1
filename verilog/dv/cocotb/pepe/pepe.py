@@ -21,8 +21,8 @@ import cocotb
 # 1: Write data, 0: Read data.
 WRITE = 28
 # Select which of four bytes for a 32 bit float to write (0-3)
-SELECT1= 27
-SELECT2= 26
+BYTE_SELECT0 = 27
+BYTE_SELECT1 = 26
 # The 8 bits of a byte mapped to input pins
 INPUT7 = 25
 INPUT6 = INPUT7 - 1
@@ -37,10 +37,10 @@ INPUT0 = INPUT7 - 7
 OUTPUT7 = 12
 OUTPUT0 = OUTPUT7 - 7
 
-async def set_byte(env, select1, select2, value):
+async def set_byte(env, byte_select0, byte_select1, value):
     env.drive_gpio_in(WRITE, 1)
-    env.drive_gpio_in(SELECT1, select1)
-    env.drive_gpio_in(SELECT2, select2)
+    env.drive_gpio_in(BYTE_SELECT0, byte_select0)
+    env.drive_gpio_in(BYTE_SELECT1, byte_select1)
     env.drive_gpio_in(INPUT7, ((value & 0x80) >> 7))
     env.drive_gpio_in(INPUT6, ((value & 0x40) >> 6))
     env.drive_gpio_in(INPUT5, ((value & 0x20) >> 5))
@@ -51,10 +51,10 @@ async def set_byte(env, select1, select2, value):
     env.drive_gpio_in(INPUT0, ((value & 0x01) >> 0))
     await cocotb.triggers.ClockCycles(env.clk, 2)
 
-async def expect_byte(env, select1, select2, expected):
+async def expect_byte(env, byte_select0, byte_select1, expected):
     env.drive_gpio_in(WRITE, 0)
-    env.drive_gpio_in(SELECT1, select1)
-    env.drive_gpio_in(SELECT2, select2)
+    env.drive_gpio_in(BYTE_SELECT0, byte_select0)
+    env.drive_gpio_in(BYTE_SELECT1, byte_select1)
     await cocotb.triggers.ClockCycles(env.clk, 2)
     bits = env.monitor_gpio(OUTPUT7, OUTPUT0)
     bits_string = bits.binstr
@@ -65,12 +65,12 @@ async def expect_byte(env, select1, select2, expected):
     else:
         cocotb.log.error (f"[TEST] Fail the value is :'{hex(value)}' expected {hex(expected)}")
 
-async def set_or_expect_byte(env, input_set, select1, select2, byte):
+async def set_or_expect_byte(env, input_set, byte_select0, byte_select1, byte):
     match input_set:
         case 1:
-            await set_byte(env, select1, select2, byte)
+            await set_byte(env, byte_select0, byte_select1, byte)
         case 0:
-            await expect_byte(env, select1, select2, byte)
+            await expect_byte(env, byte_select0, byte_select1, byte)
 
 async def set_or_expect_uint32(env, input_set, value):
     await set_or_expect_byte(env, input_set, 1, 1, (value & 0xFF000000) >> 24)

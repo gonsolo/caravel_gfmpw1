@@ -436,8 +436,8 @@ endmodule
 // Keep in sync with dv/cocotb/pepe/pepe.py
 `define DIFFERENCE	5 // The first five bits are used by caravel
 `define WRITE		28 - `DIFFERENCE
-`define SELECT1		27 - `DIFFERENCE
-`define SELECT2		26 - `DIFFERENCE
+`define BYTE_SELECT0	27 - `DIFFERENCE
+`define BYTE_SELECT1	26 - `DIFFERENCE
 `define INPUT7		25 - `DIFFERENCE
 `define INPUT6		`INPUT7 - 1
 `define INPUT5		`INPUT7 - 2
@@ -448,7 +448,6 @@ endmodule
 `define INPUT0		`INPUT7 - 7
 `define OUTPUT7		12 - `DIFFERENCE
 `define OUTPUT0		`OUTPUT7 - 7
-
 
 module user_proj_example #(
     parameter BITS = 24
@@ -508,9 +507,8 @@ module user_proj_example #(
     wire [31:0] output_bits_out_values_1;
     wire [31:0] output_bits_out_values_2;
 
-    // WRITE = 28
     wire input_set = io_in[`WRITE];
-    wire [1:0] byte_select = io_in[`SELECT1:`SELECT2];
+    wire [1:0] byte_select = io_in[`BYTE_SELECT0:`BYTE_SELECT1];
     wire [7:0] input_byte = io_in[`INPUT7:`INPUT0];
 
     wire _unused_ok = &{
