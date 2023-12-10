@@ -17,6 +17,7 @@
 from caravel_cocotb.caravel_interfaces import *
 import cocotb
 
+# Keep in sync with rtl/user_proj_example.v
 # 1: Write data, 0: Read data.
 WRITE = 28
 # Select which of four bytes for a 32 bit float to write (0-3)
