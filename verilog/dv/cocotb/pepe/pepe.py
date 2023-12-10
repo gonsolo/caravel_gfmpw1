@@ -20,11 +20,14 @@ import cocotb
 # Keep in sync with rtl/user_proj_example.v
 # 1: Write data, 0: Read data.
 WRITE = 28
+# Select which channel to write (r, g, b)
+CHANNEL_SELECT0 = 27
+CHANNEL_SELECT1 = 26
 # Select which of four bytes for a 32 bit float to write (0-3)
-BYTE_SELECT0 = 27
-BYTE_SELECT1 = 26
+BYTE_SELECT0 = 25
+BYTE_SELECT1 = 24
 # The 8 bits of a byte mapped to input pins
-INPUT7 = 25
+INPUT7 = 23
 INPUT6 = INPUT7 - 1
 INPUT5 = INPUT7 - 2
 INPUT4 = INPUT7 - 3

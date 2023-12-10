@@ -436,9 +436,11 @@ endmodule
 // Keep in sync with dv/cocotb/pepe/pepe.py
 `define DIFFERENCE	5 // The first five bits are used by caravel
 `define WRITE		28 - `DIFFERENCE
-`define BYTE_SELECT0	27 - `DIFFERENCE
-`define BYTE_SELECT1	26 - `DIFFERENCE
-`define INPUT7		25 - `DIFFERENCE
+`define CHANNEL_SELECT0	27 - `DIFFERENCE
+`define CHANNEL_SELECT1	26 - `DIFFERENCE
+`define BYTE_SELECT0	25 - `DIFFERENCE
+`define BYTE_SELECT1	24 - `DIFFERENCE
+`define INPUT7		23 - `DIFFERENCE
 `define INPUT6		`INPUT7 - 1
 `define INPUT5		`INPUT7 - 2
 `define INPUT4		`INPUT7 - 3
