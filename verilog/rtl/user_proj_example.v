@@ -610,6 +610,19 @@ endmodule
 
 `default_nettype none
 
+// Keep in sync with dv/cocotb/pepe/pepe.py
+`define CHANNEL1	15
+`define CHANNEL0	14
+`define SELECT3		13
+`define SELECT2		12
+`define SELECT1		11
+`define SELECT0		10
+`define INPUT1           9
+`define INPUT0           8
+`define OUTPUT1          7
+`define OUTPUT0          6
+`define WRITE		 5
+
 module user_proj_example #(
     parameter BITS = 16
 )(
@@ -636,56 +649,398 @@ module user_proj_example #(
     assign clock = wb_clk_i;
     assign reset = wb_rst_i;
 
-    //wire [BITS-1:0] rdata; 
-    //wire [BITS-1:0] wdata;
-    //wire [BITS-1:0] count;
-
-    //wire valid;
-    //wire [3:0] wstrb;
-    //wire [BITS-1:0] la_write;
-
-    // WB MI A
-    //assign valid = wbs_cyc_i && wbs_stb_i; 
-    //assign wstrb = wbs_sel_i & {4{wbs_we_i}};
-    //assign wbs_dat_o = {{(32-BITS){1'b0}}, rdata};
-    //assign wdata = wbs_dat_i[BITS-1:0];
-
-    // IO
-    //assign io_out = count;
-    //assign io_oeb = {(BITS){reset}};
     assign io_oeb = 16'hFFFF;
-    //assign io_oeb = 16'h0000;
-    //assign io_out = 16'hFFFF;
-
-    //assign io_oeb = 16'h0000;
 
     // IRQ
     assign irq = 3'b000;	// Unused
 
-    // dummies
-    //assign rdata = 1;
 
-    // diffuse dummies
-    wire output_ready;
-    assign output_ready = 1;
-    wire [31:0] input_bits_reflectance;
-    //assign input_bits_reflectance = 1065353216; // 32 bit float   1.f as uint32
-    assign input_bits_reflectance = 3255042048; // 32 bit float -33.f as uint32
-    wire input_valid;
-    assign input_valid = 1;
-    wire input_ready;
+    reg [31:0] channel0;
+    reg [31:0] channel1;
+    reg [31:0] channel2;
+    reg [1:0] out_bits;
+
+    initial begin
+	channel0 = 32'h00000000;
+	channel1 = 32'h00000000;
+	channel2 = 32'h00000000;
+	out_bits = 2'b00;
+    end
+
+    wire [31:0] input_bits_reflectance_values_0 = channel0;
+    wire [31:0] input_bits_reflectance_values_1 = channel1;
+    wire [31:0] input_bits_reflectance_values_2 = channel2;
+
+    wire input_valid = 1;
+    wire input_ready; // Unused
     wire output_valid;
+    wire output_ready = 1;
+
     wire [31:0] output_bits_out_0;
     wire [31:0] output_bits_out_1;
     wire [31:0] output_bits_out_2;
+
+    wire [1:0] channel = io_in[`CHANNEL1:`CHANNEL0];
+    wire [3:0] select = io_in[`SELECT3:`SELECT0];
+    wire [1:0] input_bits = io_in[`INPUT1:`INPUT0];
+    wire write = io_in[`WRITE];
+
+    always @(posedge clock) begin
+        case(channel)
+        default: ; // Nothing to do: There is no channel 4
+        2'b00:
+                case (select)
+			4'b1111:
+				begin
+					case (write)
+					1'b1: channel0[31:30] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[31:30];
+					endcase
+				end
+			4'b1110:
+				begin
+					case (write)
+					1'b1: channel0[29:28] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[29:28];
+					endcase
+				end
+			4'b1101:
+				begin
+					case (write)
+					1'b1: channel0[27:26] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[27:26];
+					endcase
+				end
+			4'b1100:
+				begin
+					case (write)
+					1'b1: channel0[25:24] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[25:24];
+					endcase
+				end
+			4'b1011:
+				begin
+					case (write)
+					1'b1: channel0[23:22] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[23:22];
+					endcase
+				end
+			4'b1010:
+				begin
+					case (write)
+					1'b1: channel0[21:20] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[21:20];
+					endcase
+				end
+			4'b1001:
+				begin
+					case (write)
+					1'b1: channel0[19:18] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[19:18];
+					endcase
+				end
+			4'b1000:
+				begin
+					case (write)
+					1'b1: channel0[17:16] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[17:16];
+					endcase
+				end
+			4'b0111:
+				begin
+					case (write)
+					1'b1: channel0[15:14] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[15:14];
+					endcase
+				end
+			4'b0110:
+				begin
+					case (write)
+					1'b1: channel0[13:12] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[13:12];
+					endcase
+				end
+			4'b0101:
+				begin
+					case (write)
+					1'b1: channel0[11:10] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[11:10];
+					endcase
+				end
+			4'b0100:
+				begin
+					case (write)
+					1'b1: channel0[9:8] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[9:8];
+					endcase
+				end
+			4'b0011:
+				begin
+					case (write)
+					1'b1: channel0[7:6] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[7:6];
+					endcase
+				end
+			4'b0010:
+				begin
+					case (write)
+					1'b1: channel0[5:4] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[5:4];
+					endcase
+				end
+			4'b0001:
+				begin
+					case (write)
+					1'b1: channel0[3:2] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[3:2];
+					endcase
+				end
+			4'b0000:
+				begin
+					case (write)
+					1'b1: channel0[1:0] <= input_bits;
+					1'b0: out_bits <= output_bits_out_0[1:0];
+					endcase
+				end
+                endcase
+        2'b01:
+                case (select)
+			4'b1111:
+				begin
+					case (write)
+					1'b1: channel1[31:30] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[31:30];
+					endcase
+				end
+			4'b1110:
+				begin
+					case (write)
+					1'b1: channel1[29:28] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[29:28];
+					endcase
+				end
+			4'b1101:
+				begin
+					case (write)
+					1'b1: channel1[27:26] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[27:26];
+					endcase
+				end
+			4'b1100:
+				begin
+					case (write)
+					1'b1: channel1[25:24] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[25:24];
+					endcase
+				end
+			4'b1011:
+				begin
+					case (write)
+					1'b1: channel1[23:22] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[23:22];
+					endcase
+				end
+			4'b1010:
+				begin
+					case (write)
+					1'b1: channel1[21:20] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[21:20];
+					endcase
+				end
+			4'b1001:
+				begin
+					case (write)
+					1'b1: channel1[19:18] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[19:18];
+					endcase
+				end
+			4'b1000:
+				begin
+					case (write)
+					1'b1: channel1[17:16] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[17:16];
+					endcase
+				end
+			4'b0111:
+				begin
+					case (write)
+					1'b1: channel1[15:14] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[15:14];
+					endcase
+				end
+			4'b0110:
+				begin
+					case (write)
+					1'b1: channel1[13:12] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[13:12];
+					endcase
+				end
+			4'b0101:
+				begin
+					case (write)
+					1'b1: channel1[11:10] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[11:10];
+					endcase
+				end
+			4'b0100:
+				begin
+					case (write)
+					1'b1: channel1[9:8] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[9:8];
+					endcase
+				end
+			4'b0011:
+				begin
+					case (write)
+					1'b1: channel1[7:6] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[7:6];
+					endcase
+				end
+			4'b0010:
+				begin
+					case (write)
+					1'b1: channel1[5:4] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[5:4];
+					endcase
+				end
+			4'b0001:
+				begin
+					case (write)
+					1'b1: channel1[3:2] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[3:2];
+					endcase
+				end
+			4'b0000:
+				begin
+					case (write)
+					1'b1: channel1[1:0] <= input_bits;
+					1'b0: out_bits <= output_bits_out_1[1:0];
+					endcase
+				end
+                endcase
+        2'b10:
+                case (select)
+			4'b1111:
+				begin
+					case (write)
+					1'b1: channel2[31:30] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[31:30];
+					endcase
+				end
+			4'b1110:
+				begin
+					case (write)
+					1'b1: channel2[29:28] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[29:28];
+					endcase
+				end
+			4'b1101:
+				begin
+					case (write)
+					1'b1: channel2[27:26] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[27:26];
+					endcase
+				end
+			4'b1100:
+				begin
+					case (write)
+					1'b1: channel2[25:24] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[25:24];
+					endcase
+				end
+			4'b1011:
+				begin
+					case (write)
+					1'b1: channel2[23:22] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[23:22];
+					endcase
+				end
+			4'b1010:
+				begin
+					case (write)
+					1'b1: channel2[21:20] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[21:20];
+					endcase
+				end
+			4'b1001:
+				begin
+					case (write)
+					1'b1: channel2[19:18] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[19:18];
+					endcase
+				end
+			4'b1000:
+				begin
+					case (write)
+					1'b1: channel2[17:16] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[17:16];
+					endcase
+				end
+			4'b0111:
+				begin
+					case (write)
+					1'b1: channel2[15:14] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[15:14];
+					endcase
+				end
+			4'b0110:
+				begin
+					case (write)
+					1'b1: channel2[13:12] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[13:12];
+					endcase
+				end
+			4'b0101:
+				begin
+					case (write)
+					1'b1: channel2[11:10] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[11:10];
+					endcase
+				end
+			4'b0100:
+				begin
+					case (write)
+					1'b1: channel2[9:8] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[9:8];
+					endcase
+				end
+			4'b0011:
+				begin
+					case (write)
+					1'b1: channel2[7:6] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[7:6];
+					endcase
+				end
+			4'b0010:
+				begin
+					case (write)
+					1'b1: channel2[5:4] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[5:4];
+					endcase
+				end
+			4'b0001:
+				begin
+					case (write)
+					1'b1: channel2[3:2] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[3:2];
+					endcase
+				end
+			4'b0000:
+				begin
+					case (write)
+					1'b1: channel2[1:0] <= input_bits;
+					1'b0: out_bits <= output_bits_out_2[1:0];
+					endcase
+				end
+                endcase
+        endcase
+    end
+
     wire _unused_ok = &{
         1'b0,
 	io_in,
         input_ready,
         output_valid,
-	output_bits_out_0[31:16],
-	output_bits_out_1,
-	output_bits_out_2,
         1'b0};
 
     Diffuse diffuse(
@@ -693,9 +1048,9 @@ module user_proj_example #(
         .reset(reset),
         .input_valid(input_valid),
         .input_ready(input_ready),
-	.input_bits_reflectance_values_0(input_bits_reflectance),
-	.input_bits_reflectance_values_1(input_bits_reflectance),
-	.input_bits_reflectance_values_2(input_bits_reflectance),
+	.input_bits_reflectance_values_0(input_bits_reflectance_values_0),
+	.input_bits_reflectance_values_1(input_bits_reflectance_values_1),
+	.input_bits_reflectance_values_2(input_bits_reflectance_values_2),
         .output_valid(output_valid),
         .output_ready(output_ready),
         .output_bits_out_values_0(output_bits_out_0),
@@ -703,7 +1058,7 @@ module user_proj_example #(
         .output_bits_out_values_2(output_bits_out_2)
     );
 
-    assign io_out = output_bits_out_0[15:0];
+    assign io_out = { 8'h0, out_bits[1:0], 6'h0 };
 
 endmodule
 
