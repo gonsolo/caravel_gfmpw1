@@ -27,3 +27,7 @@
 # Install and run precheck environment
 # make precheck # installs precheck in $PRECHECK_ROOT
 # make run-precheck
+
+# View and run docker containers
+# docker container ls # Get <container-id> from this
+# docker exec -it <container-id> bash
