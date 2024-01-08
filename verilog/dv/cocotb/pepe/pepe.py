@@ -111,6 +111,6 @@ async def pepe(dut):
 
     for pair in test_pairs:
         await pepe_test_channel(caravelEnv, 0, 0, pair[0], pair[1])
-        await pepe_test_channel(caravelEnv, 0, 1, pair[0], pair[1])
-        await pepe_test_channel(caravelEnv, 1, 0, pair[0], pair[1])
+        #await pepe_test_channel(caravelEnv, 0, 1, pair[0], pair[1])
+        #await pepe_test_channel(caravelEnv, 1, 0, pair[0], pair[1])
 

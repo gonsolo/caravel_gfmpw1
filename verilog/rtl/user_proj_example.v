@@ -53,7 +53,7 @@
   `endif // RANDOMIZE
 `endif // not def INIT_RANDOM_PROLOG_
 
-module MulFullRawFN(	// <stdin>:3:10, :632:10, :1261:10
+module MulFullRawFN(	// <stdin>:3:10
   input         io_a_isNaN,
                 io_a_isInf,
                 io_a_isZero,
@@ -76,16 +76,16 @@ module MulFullRawFN(	// <stdin>:3:10, :632:10, :1261:10
 
   assign io_invalidExc =
     io_a_isNaN & ~(io_a_sig[22]) | io_b_isNaN & ~(io_b_sig[22]) | io_a_isInf & io_b_isZero
-    | io_a_isZero & io_b_isInf;	// <stdin>:3:10, :632:10, :1261:10, hardfloat/src/main/scala/MulRecFN.scala:58:{44,76}, :66:71, hardfloat/src/main/scala/common.scala:82:{46,49,56}
-  assign io_rawOut_isNaN = io_a_isNaN | io_b_isNaN;	// <stdin>:3:10, :632:10, :1261:10, hardfloat/src/main/scala/MulRecFN.scala:70:35
-  assign io_rawOut_isInf = io_a_isInf | io_b_isInf;	// <stdin>:3:10, :632:10, :1261:10, hardfloat/src/main/scala/MulRecFN.scala:59:38
-  assign io_rawOut_isZero = io_a_isZero | io_b_isZero;	// <stdin>:3:10, :632:10, :1261:10, hardfloat/src/main/scala/MulRecFN.scala:60:40
-  assign io_rawOut_sign = io_a_sign ^ io_b_sign;	// <stdin>:3:10, :632:10, :1261:10, hardfloat/src/main/scala/MulRecFN.scala:61:36
-  assign io_rawOut_sExp = io_a_sExp + io_b_sExp - 10'h100;	// <stdin>:3:10, :632:10, :1261:10, hardfloat/src/main/scala/MulRecFN.scala:62:48
-  assign io_rawOut_sig = {23'h0, io_a_sig} * {23'h0, io_b_sig};	// <stdin>:3:10, :632:10, :1261:10, hardfloat/src/main/scala/MulRecFN.scala:63:35
+    | io_a_isZero & io_b_isInf;	// <stdin>:3:10, hardfloat/src/main/scala/MulRecFN.scala:58:{44,76}, :66:71, hardfloat/src/main/scala/common.scala:82:{46,49,56}
+  assign io_rawOut_isNaN = io_a_isNaN | io_b_isNaN;	// <stdin>:3:10, hardfloat/src/main/scala/MulRecFN.scala:70:35
+  assign io_rawOut_isInf = io_a_isInf | io_b_isInf;	// <stdin>:3:10, hardfloat/src/main/scala/MulRecFN.scala:59:38
+  assign io_rawOut_isZero = io_a_isZero | io_b_isZero;	// <stdin>:3:10, hardfloat/src/main/scala/MulRecFN.scala:60:40
+  assign io_rawOut_sign = io_a_sign ^ io_b_sign;	// <stdin>:3:10, hardfloat/src/main/scala/MulRecFN.scala:61:36
+  assign io_rawOut_sExp = io_a_sExp + io_b_sExp - 10'h100;	// <stdin>:3:10, hardfloat/src/main/scala/MulRecFN.scala:62:48
+  assign io_rawOut_sig = {23'h0, io_a_sig} * {23'h0, io_b_sig};	// <stdin>:3:10, hardfloat/src/main/scala/MulRecFN.scala:63:35
 endmodule
 
-module MulRawFN(	// <stdin>:37:10, :666:10, :1295:10
+module MulRawFN(	// <stdin>:37:10
   input         io_a_isNaN,
                 io_a_isInf,
                 io_a_isZero,
@@ -129,10 +129,10 @@ module MulRawFN(	// <stdin>:37:10, :666:10, :1295:10
     .io_rawOut_sig    (_mulFullRaw_io_rawOut_sig)
   );
   assign io_rawOut_sig =
-    {_mulFullRaw_io_rawOut_sig[47:22], |(_mulFullRaw_io_rawOut_sig[21:0])};	// <stdin>:37:10, :666:10, :1295:10, hardfloat/src/main/scala/MulRecFN.scala:84:28, :93:{10,15,37,55}
+    {_mulFullRaw_io_rawOut_sig[47:22], |(_mulFullRaw_io_rawOut_sig[21:0])};	// <stdin>:37:10, hardfloat/src/main/scala/MulRecFN.scala:84:28, :93:{10,15,37,55}
 endmodule
 
-module RoundAnyRawFNToRecFN(	// <stdin>:61:10, :690:10, :1319:10
+module RoundAnyRawFNToRecFN(	// <stdin>:61:10
   input         io_invalidExc,
                 io_in_isNaN,
                 io_in_isInf,
@@ -201,10 +201,10 @@ module RoundAnyRawFNToRecFN(	// <stdin>:61:10, :690:10, :1319:10
        | (isNaNOut ? 9'h1C0 : 9'h0),
      isNaNOut | io_in_isZero | common_totalUnderflow
        ? {isNaNOut, 22'h0}
-       : io_in_sig[26] ? roundedSig[23:1] : roundedSig[22:0]};	// <stdin>:61:10, :690:10, :1319:10, hardfloat/src/main/scala/RoundAnyRawFNToRecFN.scala:119:57, :158:42, :172:16, :184:40, :186:37, :188:16, :189:27, :190:27, :199:31, :234:34, :247:32, :249:22, :252:{14,18,32}, :263:17, :264:{14,18}, :272:16, :276:{16,73}, :277:16, :279:{12,38}, :280:16, :285:33, hardfloat/src/main/scala/primitives.scala:73:21
+       : io_in_sig[26] ? roundedSig[23:1] : roundedSig[22:0]};	// <stdin>:61:10, hardfloat/src/main/scala/RoundAnyRawFNToRecFN.scala:119:57, :158:42, :172:16, :184:40, :186:37, :188:16, :189:27, :190:27, :199:31, :234:34, :247:32, :249:22, :252:{14,18,32}, :263:17, :264:{14,18}, :272:16, :276:{16,73}, :277:16, :279:{12,38}, :280:16, :285:33, hardfloat/src/main/scala/primitives.scala:73:21
 endmodule
 
-module RoundRawFNToRecFN(	// <stdin>:309:10, :938:10, :1567:10
+module RoundRawFNToRecFN(	// <stdin>:309:10
   input         io_invalidExc,
                 io_in_isNaN,
                 io_in_isInf,
@@ -226,7 +226,7 @@ module RoundRawFNToRecFN(	// <stdin>:309:10, :938:10, :1567:10
   );
 endmodule
 
-module MulRecFN(	// <stdin>:326:10, :955:10, :1584:10
+module MulRecFN(	// <stdin>:326:10
   input  [32:0] io_a,
                 io_b,
   output [32:0] io_out);
@@ -271,7 +271,7 @@ module MulRecFN(	// <stdin>:326:10, :955:10, :1584:10
   );
 endmodule
 
-module Multiply(	// <stdin>:402:10, :1031:10, :1660:10
+module Multiply(	// <stdin>:402:10
   input  [31:0] io_a,
                 io_b,
   output [31:0] io_out);
@@ -414,30 +414,22 @@ module Multiply(	// <stdin>:402:10, :1031:10, :1660:10
        | {8{(&(_mul_io_out[31:30])) & _mul_io_out[29] | io_out_rawIn_isInf}},
      io_out_isSubnormal
        ? _io_out_denormFract_T_1[22:0]
-       : io_out_rawIn_isInf ? 23'h0 : _mul_io_out[22:0]};	// <stdin>:402:10, :1031:10, :1660:10, hardfloat/src/main/scala/fNFromRecFN.scala:51:38, :53:{42,60}, :56:16, :58:{27,45}, :60:{15,21,44}, :62:16, :64:20, :66:12, hardfloat/src/main/scala/rawFloatFromRecFN.scala:51:21, :53:{28,53}, :56:{33,41}, :57:33, :59:25, :61:49, src/main/scala/bsdf/Multiply.scala:20:19
+       : io_out_rawIn_isInf ? 23'h0 : _mul_io_out[22:0]};	// <stdin>:402:10, hardfloat/src/main/scala/fNFromRecFN.scala:51:38, :53:{42,60}, :56:16, :58:{27,45}, :60:{15,21,44}, :62:16, :64:20, :66:12, hardfloat/src/main/scala/rawFloatFromRecFN.scala:51:21, :53:{28,53}, :56:{33,41}, :57:33, :59:25, :61:49, src/main/scala/bsdf/Multiply.scala:20:19
 endmodule
 
-module MultiplySpectrum(	// <stdin>:1890:10
+module MultiplySpectrum(	// <stdin>:632:10
   input         clock,
                 reset,
                 input_valid,
   input  [31:0] input_bits_a_values_0,
-                input_bits_a_values_1,
-                input_bits_a_values_2,
   input         output_ready,
   output        output_valid,
-  output [31:0] output_bits_out_values_0,
-                output_bits_out_values_1,
-                output_bits_out_values_2);
+  output [31:0] output_bits_out_values_0);
 
   reg         busy;	// src/main/scala/bsdf/MultiplySpectrum.scala:25:21
   reg         resultValid;	// src/main/scala/bsdf/MultiplySpectrum.scala:26:28
   reg  [31:0] a_values_0;	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14
-  reg  [31:0] a_values_1;	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14
-  reg  [31:0] a_values_2;	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14
   reg  [31:0] b_values_0;	// src/main/scala/bsdf/MultiplySpectrum.scala:28:14
-  reg  [31:0] b_values_1;	// src/main/scala/bsdf/MultiplySpectrum.scala:28:14
-  reg  [31:0] b_values_2;	// src/main/scala/bsdf/MultiplySpectrum.scala:28:14
   wire        _T = output_ready & resultValid;	// src/main/scala/bsdf/MultiplySpectrum.scala:26:28, :44:23
   always @(posedge clock) begin
     if (reset) begin
@@ -454,48 +446,32 @@ module MultiplySpectrum(	// <stdin>:1890:10
     end
     else begin	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14, :39:14, :49:23
       a_values_0 <= input_bits_a_values_0;	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14
-      a_values_1 <= input_bits_a_values_1;	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14
-      a_values_2 <= input_bits_a_values_2;	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14
       b_values_0 <= 32'h3EA2F983;	// src/main/scala/bsdf/MultiplySpectrum.scala:17:17, :28:14
-      b_values_1 <= 32'h3EA2F983;	// src/main/scala/bsdf/MultiplySpectrum.scala:17:17, :28:14
-      b_values_2 <= 32'h3EA2F983;	// src/main/scala/bsdf/MultiplySpectrum.scala:17:17, :28:14
     end
   end // always @(posedge)
-  `ifndef SYNTHESIS	// <stdin>:1890:10
-    `ifdef FIRRTL_BEFORE_INITIAL	// <stdin>:1890:10
-      `FIRRTL_BEFORE_INITIAL	// <stdin>:1890:10
+  `ifndef SYNTHESIS	// <stdin>:632:10
+    `ifdef FIRRTL_BEFORE_INITIAL	// <stdin>:632:10
+      `FIRRTL_BEFORE_INITIAL	// <stdin>:632:10
     `endif // FIRRTL_BEFORE_INITIAL
-    logic [31:0] _RANDOM_0;	// <stdin>:1890:10
-    logic [31:0] _RANDOM_1;	// <stdin>:1890:10
-    logic [31:0] _RANDOM_2;	// <stdin>:1890:10
-    logic [31:0] _RANDOM_3;	// <stdin>:1890:10
-    logic [31:0] _RANDOM_4;	// <stdin>:1890:10
-    logic [31:0] _RANDOM_5;	// <stdin>:1890:10
-    logic [31:0] _RANDOM_6;	// <stdin>:1890:10
-    initial begin	// <stdin>:1890:10
-      `ifdef INIT_RANDOM_PROLOG_	// <stdin>:1890:10
-        `INIT_RANDOM_PROLOG_	// <stdin>:1890:10
+    logic [31:0] _RANDOM_0;	// <stdin>:632:10
+    logic [31:0] _RANDOM_1;	// <stdin>:632:10
+    logic [31:0] _RANDOM_2;	// <stdin>:632:10
+    initial begin	// <stdin>:632:10
+      `ifdef INIT_RANDOM_PROLOG_	// <stdin>:632:10
+        `INIT_RANDOM_PROLOG_	// <stdin>:632:10
       `endif // INIT_RANDOM_PROLOG_
-      `ifdef RANDOMIZE_REG_INIT	// <stdin>:1890:10
-        _RANDOM_0 = `RANDOM;	// <stdin>:1890:10
-        _RANDOM_1 = `RANDOM;	// <stdin>:1890:10
-        _RANDOM_2 = `RANDOM;	// <stdin>:1890:10
-        _RANDOM_3 = `RANDOM;	// <stdin>:1890:10
-        _RANDOM_4 = `RANDOM;	// <stdin>:1890:10
-        _RANDOM_5 = `RANDOM;	// <stdin>:1890:10
-        _RANDOM_6 = `RANDOM;	// <stdin>:1890:10
+      `ifdef RANDOMIZE_REG_INIT	// <stdin>:632:10
+        _RANDOM_0 = `RANDOM;	// <stdin>:632:10
+        _RANDOM_1 = `RANDOM;	// <stdin>:632:10
+        _RANDOM_2 = `RANDOM;	// <stdin>:632:10
         busy = _RANDOM_0[0];	// src/main/scala/bsdf/MultiplySpectrum.scala:25:21
         resultValid = _RANDOM_0[1];	// src/main/scala/bsdf/MultiplySpectrum.scala:25:21, :26:28
         a_values_0 = {_RANDOM_0[31:2], _RANDOM_1[1:0]};	// src/main/scala/bsdf/MultiplySpectrum.scala:25:21, :27:14
-        a_values_1 = {_RANDOM_1[31:2], _RANDOM_2[1:0]};	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14
-        a_values_2 = {_RANDOM_2[31:2], _RANDOM_3[1:0]};	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14
-        b_values_0 = {_RANDOM_3[31:2], _RANDOM_4[1:0]};	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14, :28:14
-        b_values_1 = {_RANDOM_4[31:2], _RANDOM_5[1:0]};	// src/main/scala/bsdf/MultiplySpectrum.scala:28:14
-        b_values_2 = {_RANDOM_5[31:2], _RANDOM_6[1:0]};	// src/main/scala/bsdf/MultiplySpectrum.scala:28:14
+        b_values_0 = {_RANDOM_1[31:2], _RANDOM_2[1:0]};	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14, :28:14
       `endif // RANDOMIZE_REG_INIT
     end // initial
-    `ifdef FIRRTL_AFTER_INITIAL	// <stdin>:1890:10
-      `FIRRTL_AFTER_INITIAL	// <stdin>:1890:10
+    `ifdef FIRRTL_AFTER_INITIAL	// <stdin>:632:10
+      `FIRRTL_AFTER_INITIAL	// <stdin>:632:10
     `endif // FIRRTL_AFTER_INITIAL
   `endif // not def SYNTHESIS
   Multiply multipliers_multiply (	// src/main/scala/bsdf/MultiplySpectrum.scala:21:26
@@ -503,39 +479,23 @@ module MultiplySpectrum(	// <stdin>:1890:10
     .io_b   (b_values_0),	// src/main/scala/bsdf/MultiplySpectrum.scala:28:14
     .io_out (output_bits_out_values_0)
   );
-  Multiply multipliers_multiply_1 (	// src/main/scala/bsdf/MultiplySpectrum.scala:21:26
-    .io_a   (a_values_1),	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14
-    .io_b   (b_values_1),	// src/main/scala/bsdf/MultiplySpectrum.scala:28:14
-    .io_out (output_bits_out_values_1)
-  );
-  Multiply multipliers_multiply_2 (	// src/main/scala/bsdf/MultiplySpectrum.scala:21:26
-    .io_a   (a_values_2),	// src/main/scala/bsdf/MultiplySpectrum.scala:27:14
-    .io_b   (b_values_2),	// src/main/scala/bsdf/MultiplySpectrum.scala:28:14
-    .io_out (output_bits_out_values_2)
-  );
-  assign output_valid = resultValid;	// <stdin>:1890:10, src/main/scala/bsdf/MultiplySpectrum.scala:26:28
+  assign output_valid = resultValid;	// <stdin>:632:10, src/main/scala/bsdf/MultiplySpectrum.scala:26:28
 endmodule
 
-module Diffuse(	// <stdin>:1958:10
+module Diffuse(	// <stdin>:676:10
   input         clock,
                 reset,
                 input_valid,
   input  [31:0] input_bits_reflectance_values_0,
-                input_bits_reflectance_values_1,
-                input_bits_reflectance_values_2,
   input         output_ready,
   output        input_ready,
                 output_valid,
-  output [31:0] output_bits_out_values_0,
-                output_bits_out_values_1,
-                output_bits_out_values_2);
+  output [31:0] output_bits_out_values_0);
 
   wire        _multiplySpectrum_output_valid;	// src/main/scala/bsdf/Diffuse.scala:19:32
   reg         busy;	// src/main/scala/bsdf/Diffuse.scala:22:21
   reg         resultValid;	// src/main/scala/bsdf/Diffuse.scala:23:28
   reg  [31:0] reflectance_values_0;	// src/main/scala/bsdf/Diffuse.scala:24:24
-  reg  [31:0] reflectance_values_1;	// src/main/scala/bsdf/Diffuse.scala:24:24
-  reg  [31:0] reflectance_values_2;	// src/main/scala/bsdf/Diffuse.scala:24:24
   wire        _T = output_ready & resultValid;	// src/main/scala/bsdf/Diffuse.scala:23:28, :46:26
   wire        _GEN = busy & _multiplySpectrum_output_valid;	// src/main/scala/bsdf/Diffuse.scala:19:32, :22:21, :23:28, :37:14, :43:42, :46:42
   always @(posedge clock) begin
@@ -553,40 +513,31 @@ module Diffuse(	// <stdin>:1958:10
     end
     if (busy | ~input_valid) begin	// src/main/scala/bsdf/Diffuse.scala:22:21, :24:24, :37:14, :54:24
     end
-    else begin	// src/main/scala/bsdf/Diffuse.scala:24:24, :37:14, :54:24
+    else	// src/main/scala/bsdf/Diffuse.scala:24:24, :37:14, :54:24
       reflectance_values_0 <= input_bits_reflectance_values_0;	// src/main/scala/bsdf/Diffuse.scala:24:24
-      reflectance_values_1 <= input_bits_reflectance_values_1;	// src/main/scala/bsdf/Diffuse.scala:24:24
-      reflectance_values_2 <= input_bits_reflectance_values_2;	// src/main/scala/bsdf/Diffuse.scala:24:24
-    end
   end // always @(posedge)
-  `ifndef SYNTHESIS	// <stdin>:1958:10
-    `ifdef FIRRTL_BEFORE_INITIAL	// <stdin>:1958:10
-      `FIRRTL_BEFORE_INITIAL	// <stdin>:1958:10
+  `ifndef SYNTHESIS	// <stdin>:676:10
+    `ifdef FIRRTL_BEFORE_INITIAL	// <stdin>:676:10
+      `FIRRTL_BEFORE_INITIAL	// <stdin>:676:10
     `endif // FIRRTL_BEFORE_INITIAL
-    logic [31:0] _RANDOM_0;	// <stdin>:1958:10
-    logic [31:0] _RANDOM_1;	// <stdin>:1958:10
-    logic [31:0] _RANDOM_2;	// <stdin>:1958:10
-    logic [31:0] _RANDOM_3;	// <stdin>:1958:10
-    logic [31:0] _RANDOM_4;	// <stdin>:1958:10
-    initial begin	// <stdin>:1958:10
-      `ifdef INIT_RANDOM_PROLOG_	// <stdin>:1958:10
-        `INIT_RANDOM_PROLOG_	// <stdin>:1958:10
+    logic [31:0] _RANDOM_0;	// <stdin>:676:10
+    logic [31:0] _RANDOM_1;	// <stdin>:676:10
+    logic [31:0] _RANDOM_2;	// <stdin>:676:10
+    initial begin	// <stdin>:676:10
+      `ifdef INIT_RANDOM_PROLOG_	// <stdin>:676:10
+        `INIT_RANDOM_PROLOG_	// <stdin>:676:10
       `endif // INIT_RANDOM_PROLOG_
-      `ifdef RANDOMIZE_REG_INIT	// <stdin>:1958:10
-        _RANDOM_0 = `RANDOM;	// <stdin>:1958:10
-        _RANDOM_1 = `RANDOM;	// <stdin>:1958:10
-        _RANDOM_2 = `RANDOM;	// <stdin>:1958:10
-        _RANDOM_3 = `RANDOM;	// <stdin>:1958:10
-        _RANDOM_4 = `RANDOM;	// <stdin>:1958:10
+      `ifdef RANDOMIZE_REG_INIT	// <stdin>:676:10
+        _RANDOM_0 = `RANDOM;	// <stdin>:676:10
+        _RANDOM_1 = `RANDOM;	// <stdin>:676:10
+        _RANDOM_2 = `RANDOM;	// <stdin>:676:10
         busy = _RANDOM_0[31];	// src/main/scala/bsdf/Diffuse.scala:22:21
         resultValid = _RANDOM_1[0];	// src/main/scala/bsdf/Diffuse.scala:23:28
         reflectance_values_0 = {_RANDOM_1[31:1], _RANDOM_2[0]};	// src/main/scala/bsdf/Diffuse.scala:23:28, :24:24
-        reflectance_values_1 = {_RANDOM_2[31:1], _RANDOM_3[0]};	// src/main/scala/bsdf/Diffuse.scala:24:24
-        reflectance_values_2 = {_RANDOM_3[31:1], _RANDOM_4[0]};	// src/main/scala/bsdf/Diffuse.scala:24:24
       `endif // RANDOMIZE_REG_INIT
     end // initial
-    `ifdef FIRRTL_AFTER_INITIAL	// <stdin>:1958:10
-      `FIRRTL_AFTER_INITIAL	// <stdin>:1958:10
+    `ifdef FIRRTL_AFTER_INITIAL	// <stdin>:676:10
+      `FIRRTL_AFTER_INITIAL	// <stdin>:676:10
     `endif // FIRRTL_AFTER_INITIAL
   `endif // not def SYNTHESIS
   MultiplySpectrum multiplySpectrum (	// src/main/scala/bsdf/Diffuse.scala:19:32
@@ -594,16 +545,12 @@ module Diffuse(	// <stdin>:1958:10
     .reset                    (reset),
     .input_valid              (busy),	// src/main/scala/bsdf/Diffuse.scala:22:21
     .input_bits_a_values_0    (reflectance_values_0),	// src/main/scala/bsdf/Diffuse.scala:24:24
-    .input_bits_a_values_1    (reflectance_values_1),	// src/main/scala/bsdf/Diffuse.scala:24:24
-    .input_bits_a_values_2    (reflectance_values_2),	// src/main/scala/bsdf/Diffuse.scala:24:24
     .output_ready             (_GEN & _T),	// src/main/scala/bsdf/Diffuse.scala:23:28, :34:33, :37:14, :43:42, :46:{26,42}, :53:35
     .output_valid             (_multiplySpectrum_output_valid),
-    .output_bits_out_values_0 (output_bits_out_values_0),
-    .output_bits_out_values_1 (output_bits_out_values_1),
-    .output_bits_out_values_2 (output_bits_out_values_2)
+    .output_bits_out_values_0 (output_bits_out_values_0)
   );
-  assign input_ready = ~busy & input_valid | ~busy;	// <stdin>:1958:10, src/main/scala/bsdf/Diffuse.scala:22:21, :26:{15,18}, :37:14, :54:24
-  assign output_valid = resultValid;	// <stdin>:1958:10, src/main/scala/bsdf/Diffuse.scala:23:28
+  assign input_ready = ~busy & input_valid | ~busy;	// <stdin>:676:10, src/main/scala/bsdf/Diffuse.scala:22:21, :26:{15,18}, :37:14, :54:24
+  assign output_valid = resultValid;	// <stdin>:676:10, src/main/scala/bsdf/Diffuse.scala:23:28
 endmodule
 
 // gonsolo: End of Diffuse.v
@@ -656,20 +603,20 @@ module user_proj_example #(
 
 
     reg [31:0] channel0;
-    reg [31:0] channel1;
-    reg [31:0] channel2;
+    //reg [31:0] channel1;
+    //reg [31:0] channel2;
     reg [1:0] out_bits;
 
     initial begin
 	channel0 = 32'h00000000;
-	channel1 = 32'h00000000;
-	channel2 = 32'h00000000;
+	//channel1 = 32'h00000000;
+	//channel2 = 32'h00000000;
 	out_bits = 2'b00;
     end
 
     wire [31:0] input_bits_reflectance_values_0 = channel0;
-    wire [31:0] input_bits_reflectance_values_1 = channel1;
-    wire [31:0] input_bits_reflectance_values_2 = channel2;
+    //wire [31:0] input_bits_reflectance_values_1 = channel1;
+    //wire [31:0] input_bits_reflectance_values_2 = channel2;
 
     wire input_valid = 1;
     wire input_ready; // Unused
@@ -677,8 +624,8 @@ module user_proj_example #(
     wire output_ready = 1;
 
     wire [31:0] output_bits_out_0;
-    wire [31:0] output_bits_out_1;
-    wire [31:0] output_bits_out_2;
+    //wire [31:0] output_bits_out_1;
+    //wire [31:0] output_bits_out_2;
 
     wire [1:0] channel = io_in[`CHANNEL1:`CHANNEL0];
     wire [3:0] select = io_in[`SELECT3:`SELECT0];
@@ -803,236 +750,236 @@ module user_proj_example #(
 					endcase
 				end
                 endcase
-        2'b01:
-                case (select)
-			4'b1111:
-				begin
-					case (write)
-					1'b1: channel1[31:30] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[31:30];
-					endcase
-				end
-			4'b1110:
-				begin
-					case (write)
-					1'b1: channel1[29:28] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[29:28];
-					endcase
-				end
-			4'b1101:
-				begin
-					case (write)
-					1'b1: channel1[27:26] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[27:26];
-					endcase
-				end
-			4'b1100:
-				begin
-					case (write)
-					1'b1: channel1[25:24] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[25:24];
-					endcase
-				end
-			4'b1011:
-				begin
-					case (write)
-					1'b1: channel1[23:22] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[23:22];
-					endcase
-				end
-			4'b1010:
-				begin
-					case (write)
-					1'b1: channel1[21:20] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[21:20];
-					endcase
-				end
-			4'b1001:
-				begin
-					case (write)
-					1'b1: channel1[19:18] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[19:18];
-					endcase
-				end
-			4'b1000:
-				begin
-					case (write)
-					1'b1: channel1[17:16] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[17:16];
-					endcase
-				end
-			4'b0111:
-				begin
-					case (write)
-					1'b1: channel1[15:14] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[15:14];
-					endcase
-				end
-			4'b0110:
-				begin
-					case (write)
-					1'b1: channel1[13:12] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[13:12];
-					endcase
-				end
-			4'b0101:
-				begin
-					case (write)
-					1'b1: channel1[11:10] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[11:10];
-					endcase
-				end
-			4'b0100:
-				begin
-					case (write)
-					1'b1: channel1[9:8] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[9:8];
-					endcase
-				end
-			4'b0011:
-				begin
-					case (write)
-					1'b1: channel1[7:6] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[7:6];
-					endcase
-				end
-			4'b0010:
-				begin
-					case (write)
-					1'b1: channel1[5:4] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[5:4];
-					endcase
-				end
-			4'b0001:
-				begin
-					case (write)
-					1'b1: channel1[3:2] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[3:2];
-					endcase
-				end
-			4'b0000:
-				begin
-					case (write)
-					1'b1: channel1[1:0] <= input_bits;
-					1'b0: out_bits <= output_bits_out_1[1:0];
-					endcase
-				end
-                endcase
-        2'b10:
-                case (select)
-			4'b1111:
-				begin
-					case (write)
-					1'b1: channel2[31:30] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[31:30];
-					endcase
-				end
-			4'b1110:
-				begin
-					case (write)
-					1'b1: channel2[29:28] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[29:28];
-					endcase
-				end
-			4'b1101:
-				begin
-					case (write)
-					1'b1: channel2[27:26] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[27:26];
-					endcase
-				end
-			4'b1100:
-				begin
-					case (write)
-					1'b1: channel2[25:24] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[25:24];
-					endcase
-				end
-			4'b1011:
-				begin
-					case (write)
-					1'b1: channel2[23:22] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[23:22];
-					endcase
-				end
-			4'b1010:
-				begin
-					case (write)
-					1'b1: channel2[21:20] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[21:20];
-					endcase
-				end
-			4'b1001:
-				begin
-					case (write)
-					1'b1: channel2[19:18] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[19:18];
-					endcase
-				end
-			4'b1000:
-				begin
-					case (write)
-					1'b1: channel2[17:16] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[17:16];
-					endcase
-				end
-			4'b0111:
-				begin
-					case (write)
-					1'b1: channel2[15:14] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[15:14];
-					endcase
-				end
-			4'b0110:
-				begin
-					case (write)
-					1'b1: channel2[13:12] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[13:12];
-					endcase
-				end
-			4'b0101:
-				begin
-					case (write)
-					1'b1: channel2[11:10] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[11:10];
-					endcase
-				end
-			4'b0100:
-				begin
-					case (write)
-					1'b1: channel2[9:8] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[9:8];
-					endcase
-				end
-			4'b0011:
-				begin
-					case (write)
-					1'b1: channel2[7:6] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[7:6];
-					endcase
-				end
-			4'b0010:
-				begin
-					case (write)
-					1'b1: channel2[5:4] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[5:4];
-					endcase
-				end
-			4'b0001:
-				begin
-					case (write)
-					1'b1: channel2[3:2] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[3:2];
-					endcase
-				end
-			4'b0000:
-				begin
-					case (write)
-					1'b1: channel2[1:0] <= input_bits;
-					1'b0: out_bits <= output_bits_out_2[1:0];
-					endcase
-				end
-                endcase
+//        2'b01:
+//                case (select)
+//			4'b1111:
+//				begin
+//					case (write)
+//					1'b1: channel1[31:30] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[31:30];
+//					endcase
+//				end
+//			4'b1110:
+//				begin
+//					case (write)
+//					1'b1: channel1[29:28] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[29:28];
+//					endcase
+//				end
+//			4'b1101:
+//				begin
+//					case (write)
+//					1'b1: channel1[27:26] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[27:26];
+//					endcase
+//				end
+//			4'b1100:
+//				begin
+//					case (write)
+//					1'b1: channel1[25:24] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[25:24];
+//					endcase
+//				end
+//			4'b1011:
+//				begin
+//					case (write)
+//					1'b1: channel1[23:22] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[23:22];
+//					endcase
+//				end
+//			4'b1010:
+//				begin
+//					case (write)
+//					1'b1: channel1[21:20] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[21:20];
+//					endcase
+//				end
+//			4'b1001:
+//				begin
+//					case (write)
+//					1'b1: channel1[19:18] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[19:18];
+//					endcase
+//				end
+//			4'b1000:
+//				begin
+//					case (write)
+//					1'b1: channel1[17:16] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[17:16];
+//					endcase
+//				end
+//			4'b0111:
+//				begin
+//					case (write)
+//					1'b1: channel1[15:14] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[15:14];
+//					endcase
+//				end
+//			4'b0110:
+//				begin
+//					case (write)
+//					1'b1: channel1[13:12] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[13:12];
+//					endcase
+//				end
+//			4'b0101:
+//				begin
+//					case (write)
+//					1'b1: channel1[11:10] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[11:10];
+//					endcase
+//				end
+//			4'b0100:
+//				begin
+//					case (write)
+//					1'b1: channel1[9:8] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[9:8];
+//					endcase
+//				end
+//			4'b0011:
+//				begin
+//					case (write)
+//					1'b1: channel1[7:6] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[7:6];
+//					endcase
+//				end
+//			4'b0010:
+//				begin
+//					case (write)
+//					1'b1: channel1[5:4] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[5:4];
+//					endcase
+//				end
+//			4'b0001:
+//				begin
+//					case (write)
+//					1'b1: channel1[3:2] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[3:2];
+//					endcase
+//				end
+//			4'b0000:
+//				begin
+//					case (write)
+//					1'b1: channel1[1:0] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_1[1:0];
+//					endcase
+//				end
+//                endcase
+//        2'b10:
+//                case (select)
+//			4'b1111:
+//				begin
+//					case (write)
+//					1'b1: channel2[31:30] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[31:30];
+//					endcase
+//				end
+//			4'b1110:
+//				begin
+//					case (write)
+//					1'b1: channel2[29:28] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[29:28];
+//					endcase
+//				end
+//			4'b1101:
+//				begin
+//					case (write)
+//					1'b1: channel2[27:26] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[27:26];
+//					endcase
+//				end
+//			4'b1100:
+//				begin
+//					case (write)
+//					1'b1: channel2[25:24] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[25:24];
+//					endcase
+//				end
+//			4'b1011:
+//				begin
+//					case (write)
+//					1'b1: channel2[23:22] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[23:22];
+//					endcase
+//				end
+//			4'b1010:
+//				begin
+//					case (write)
+//					1'b1: channel2[21:20] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[21:20];
+//					endcase
+//				end
+//			4'b1001:
+//				begin
+//					case (write)
+//					1'b1: channel2[19:18] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[19:18];
+//					endcase
+//				end
+//			4'b1000:
+//				begin
+//					case (write)
+//					1'b1: channel2[17:16] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[17:16];
+//					endcase
+//				end
+//			4'b0111:
+//				begin
+//					case (write)
+//					1'b1: channel2[15:14] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[15:14];
+//					endcase
+//				end
+//			4'b0110:
+//				begin
+//					case (write)
+//					1'b1: channel2[13:12] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[13:12];
+//					endcase
+//				end
+//			4'b0101:
+//				begin
+//					case (write)
+//					1'b1: channel2[11:10] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[11:10];
+//					endcase
+//				end
+//			4'b0100:
+//				begin
+//					case (write)
+//					1'b1: channel2[9:8] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[9:8];
+//					endcase
+//				end
+//			4'b0011:
+//				begin
+//					case (write)
+//					1'b1: channel2[7:6] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[7:6];
+//					endcase
+//				end
+//			4'b0010:
+//				begin
+//					case (write)
+//					1'b1: channel2[5:4] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[5:4];
+//					endcase
+//				end
+//			4'b0001:
+//				begin
+//					case (write)
+//					1'b1: channel2[3:2] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[3:2];
+//					endcase
+//				end
+//			4'b0000:
+//				begin
+//					case (write)
+//					1'b1: channel2[1:0] <= input_bits;
+//					1'b0: out_bits <= output_bits_out_2[1:0];
+//					endcase
+//				end
+//                endcase
         endcase
     end
 
@@ -1041,6 +988,8 @@ module user_proj_example #(
 	io_in,
         input_ready,
         output_valid,
+	//output_bits_out_1,
+	//output_bits_out_2,
         1'b0};
 
     Diffuse diffuse(
@@ -1049,13 +998,17 @@ module user_proj_example #(
         .input_valid(input_valid),
         .input_ready(input_ready),
 	.input_bits_reflectance_values_0(input_bits_reflectance_values_0),
-	.input_bits_reflectance_values_1(input_bits_reflectance_values_1),
-	.input_bits_reflectance_values_2(input_bits_reflectance_values_2),
+
+	//.input_bits_reflectance_values_1(input_bits_reflectance_values_0),
+	//.input_bits_reflectance_values_1(input_bits_reflectance_values_1),
+	//.input_bits_reflectance_values_2(input_bits_reflectance_values_0),
+	//.input_bits_reflectance_values_2(input_bits_reflectance_values_2),
+
         .output_valid(output_valid),
         .output_ready(output_ready),
-        .output_bits_out_values_0(output_bits_out_0),
-        .output_bits_out_values_1(output_bits_out_1),
-        .output_bits_out_values_2(output_bits_out_2)
+        .output_bits_out_values_0(output_bits_out_0) //,
+        //.output_bits_out_values_1(output_bits_out_1),
+        //.output_bits_out_values_2(output_bits_out_2)
     );
 
     assign io_out = { 8'h0, out_bits[1:0], 6'h0 };
