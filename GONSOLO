@@ -13,6 +13,7 @@
 # limitations under the License.
 # SPDX-License-Identifier: Apache-2.0
 
+# Enable and list PDKs
 # once: make setup # volare enable --pdk gf180mcu e0f692f46654d6c7c99fc70a0c94a080dab53571
 # list: volare ls --pdk gf180mcu
 
@@ -20,11 +21,9 @@
 # make cocotb-verify-pepe-rtl
 
 # Generate GDS files
-# make gonsolo
 # make user_proj_example
+# make user_project_wrapper
 
-# Install precheck environment
+# Install and run precheck environment
 # make precheck # installs precheck in $PRECHECK_ROOT
-
-# Run precheck
 # make run-precheck
